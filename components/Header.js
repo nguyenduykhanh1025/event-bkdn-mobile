@@ -212,7 +212,7 @@ class Header extends React.Component {
 
     return (
       <Block style={headerStyles}>
-        <NavBar
+        {/* <NavBar
           back={false}
           title={title}
           style={navbarStyles}
@@ -235,7 +235,7 @@ class Header extends React.Component {
             titleColor && { color: titleColor }
           ]}
           {...props}
-        />
+        /> */}
         {this.renderHeader()}
       </Block>
     );
