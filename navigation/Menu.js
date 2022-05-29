@@ -35,10 +35,10 @@ function CustomDrawerContent({ drawerPosition, navigation, profile, focused, sta
       'title': 'Thông Báo',
       'name': 'Notifies'
     },
-    {
-      'title': 'QR Code',
-      'name': 'QrCode'
-    },
+    // {
+    //   'title': 'QR Code',
+    //   'name': 'Register'
+    // },
   ]
 
   return (
@@ -88,6 +88,7 @@ function CustomDrawerContent({ drawerPosition, navigation, profile, focused, sta
           </Block>
           {/* <DrawerCustomItem title="GETTING STARTED" navigation={navigation} /> */}
           <DrawerCustomItem title="LOGOUT" navigation={navigation} />
+          {/* <DrawerCustomItem title="LOGOUT" navigation={navigation} /> */}
         </ScrollView>
       </Block>
     </Block>

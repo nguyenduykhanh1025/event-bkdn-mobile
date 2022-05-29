@@ -19,11 +19,10 @@ const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>{children}</TouchableWithoutFeedback>
 );
 
-const Register = ({ navigation }) => {
+const Login = ({ navigation }) => {
 
-  const onCLickGoToLoginPage = () => {
-    // console.log('onCLickGoToLoginPage');
-    navigation.navigate('Login')
+  const onCLickGoToRegisterPage = () => {
+    navigation.navigate('Register')
   }
 
   return (
@@ -37,7 +36,7 @@ const Register = ({ navigation }) => {
           <Block flex middle>
             <Block style={styles.registerContainer}>
               <Block flex space="evenly">
-                <Block flex={0.15} middle style={styles.socialConnect}>
+                <Block flex={0.5} middle style={styles.socialConnect}>
                   <Block flex={0.5} middle>
                     <Text
                       style={{
@@ -48,7 +47,7 @@ const Register = ({ navigation }) => {
                       color={nowTheme.COLORS.PRIMARY}
                       size={28}
                     >
-                      Đăng Ký
+                      Đăng Nhập
                     </Text>
                   </Block>
 
@@ -102,24 +101,9 @@ const Register = ({ navigation }) => {
                   </Text>
                 </Block> */}
                 <Block flex={1} middle space="between">
-                  <Block center flex={0.9}>
+                  <Block center flex={0.5}>
                     <Block flex space="between">
                       <Block>
-                        <Block width={width * 0.8} style={{ marginBottom: 5 }}>
-                          <Input
-                            placeholder="Họ Và Tên"
-                            style={styles.inputs}
-                            iconContent={
-                              <Icon
-                                size={16}
-                                color="#ADB5BD"
-                                name="profile-circle"
-                                family="NowExtra"
-                                style={styles.inputIcons}
-                              />
-                            }
-                          />
-                        </Block>
                         <Block width={width * 0.8}>
                           <Input
                             placeholder="Email"
@@ -135,36 +119,7 @@ const Register = ({ navigation }) => {
                             }
                           />
                         </Block>
-                        <Block width={width * 0.8}>
-                          <Input
-                            placeholder="Số Điện Thoại"
-                            style={styles.inputs}
-                            iconContent={
-                              <Icon
-                                size={16}
-                                color="#ADB5BD"
-                                name="phone"
-                                family="AntDesign"
-                                style={styles.inputIcons}
-                              />
-                            }
-                          />
-                        </Block>
-                        <Block width={width * 0.8}>
-                          <Input
-                            placeholder="Mã Số Sinh Viên"
-                            style={styles.inputs}
-                            iconContent={
-                              <Icon
-                                size={16}
-                                color="#ADB5BD"
-                                name="idcard"
-                                family="AntDesign"
-                                style={styles.inputIcons}
-                              />
-                            }
-                          />
-                        </Block>
+
                         <Block width={width * 0.8}>
                           <Input
                             placeholder="Mật Khẩu"
@@ -180,40 +135,6 @@ const Register = ({ navigation }) => {
                             }
                           />
                         </Block>
-                        <Block width={width * 0.8}>
-                          <Input
-                            placeholder="Nhập Lại Mật Khẩu"
-                            style={styles.inputs}
-                            iconContent={
-                              <Icon
-                                size={16}
-                                color="#ADB5BD"
-                                name="text"
-                                family="Entypo"
-                                style={styles.inputIcons}
-                              />
-                            }
-                          />
-                        </Block>
-                        {/* <Block
-                          style={{ marginVertical: theme.SIZES.BASE, marginLeft: 15 }}
-                          row
-                          width={width * 0.75}
-                        >
-                          <Checkbox
-                            checkboxStyle={{
-                              borderWidth: 1,
-                              borderRadius: 2,
-                              borderColor: '#E3E3E3'
-                            }}
-                            color={nowTheme.COLORS.PRIMARY}
-                            labelStyle={{
-                              color: nowTheme.COLORS.HEADER,
-                              fontFamily: 'montserrat-regular'
-                            }}
-                            label="I agree to the terms and conditions."
-                          />
-                        </Block> */}
                       </Block>
                       <Block center>
                         <Button color="primary" round style={styles.createButton}>
@@ -222,7 +143,7 @@ const Register = ({ navigation }) => {
                             size={14}
                             color={nowTheme.COLORS.WHITE}
                           >
-                            Đăng Ký
+                            Đăng Nhập
                           </Text>
                         </Button>
                       </Block>
@@ -235,10 +156,10 @@ const Register = ({ navigation }) => {
                         <Text
                           style={{
                           }}>
-                          Tôi đã có tài khoản. Đăng nhập
+                          Tôi chưa có tài khoản. Đăng ký
                         </Text>
                         <TouchableOpacity
-                          onPress={() => onCLickGoToLoginPage()}
+                          onPress={() => onCLickGoToRegisterPage()}
                           style={{
                           }}
                         >
@@ -261,7 +182,7 @@ const Register = ({ navigation }) => {
   );
 }
 
-// class Register extends React.Component {
+// class Login extends React.Component {
 //   render() {
 
 //   }
@@ -345,4 +266,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Register;
+export default Login;

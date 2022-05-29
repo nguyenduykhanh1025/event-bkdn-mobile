@@ -19,6 +19,7 @@ import SettingsScreen from '../screens/Settings';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
+import Login from '../screens/Login';
 
 const { width } = Dimensions.get('screen');
 
@@ -72,24 +73,39 @@ function ArticlesStack(props) {
   );
 }
 
-function AccountStack(props) {
+function RegisterStack(props) {
   return (
     <Stack.Navigator
-      initialRouteName="Account"
+      // initialRouteName="Register"
       screenOptions={{
         mode: 'card',
-        headerShown: 'screen',
+        // headerShown: 'screen',
+        headerShown: false,
       }}
     >
       <Stack.Screen
-        name="Account"
+        name="Register"
         component={Register}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header transparent title="Create Account" navigation={navigation} scene={scene} />
-          ),
-          headerTransparent: true,
-        }}
+        options={{ headerShown: false, headerTransparent: true, }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function LoginStack(props) {
+  return (
+    <Stack.Navigator
+      // initialRouteName="Register"
+      screenOptions={{
+        mode: 'card',
+        // headerShown: 'screen',
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerShown: false, headerTransparent: true, }}
       />
     </Stack.Navigator>
   );
@@ -184,6 +200,29 @@ function HomeStack(props) {
   );
 }
 
+// function RegisterStack(props) {
+//   return (
+//     <Stack.Navigator
+//       initialRouteName="Account"
+//       screenOptions={{
+//         mode: 'card',
+//         headerShown: 'screen',
+//       }}
+//     >
+//       <Stack.Screen
+//         name="Account"
+//         component={Register}
+//         options={{
+//           header: ({ navigation, scene }) => (
+//             <Header transparent title="Create Account" navigation={navigation} scene={scene} />
+//           ),
+//           headerTransparent: true,
+//         }}
+//       />
+//     </Stack.Navigator>
+//   );
+// }
+
 function AppStack(props) {
   return (
     <Drawer.Navigator
@@ -219,7 +258,9 @@ function AppStack(props) {
       {/* <Drawer.Screen name="Components" component={ComponentsStack} /> */}
       {/* <Drawer.Screen name="Articles" component={ArticlesStack} /> */}
       <Drawer.Screen name="Profile" component={ProfileStack} />
-      {/* <Drawer.Screen name="Account" component={AccountStack} /> */}
+      <Drawer.Screen name="Register" component={RegisterStack} options={{ headerShown: false }} />
+      <Drawer.Screen name="Login" component={LoginStack} options={{ headerShown: false }} />
+      {/* <Drawer.Screen name="Register" component={RegisterStack} /> */}
     </Drawer.Navigator>
   );
 }
