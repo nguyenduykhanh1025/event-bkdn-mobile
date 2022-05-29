@@ -182,9 +182,9 @@ class Header extends React.Component {
     if (search || tabs || options) {
       return (
         <Block center>
-          {search ? this.renderSearch() : null}
-          {options ? this.renderOptions() : null}
-          {tabs ? this.renderTabs() : null}
+          {/* {search ? this.renderSearch() : null} */}
+          {/* {options ? this.renderOptions() : null} */}
+          {/* {tabs ? this.renderTabs() : null} */}
         </Block>
       );
     }
@@ -201,8 +201,7 @@ class Header extends React.Component {
       navigation,
       ...props
     } = this.props;
-
-    const noShadow = ['Search', 'Categories', 'Deals', 'Pro', 'Profile'].includes(title);
+    const noShadow = ['Trang Chủ'].includes(title);
     const headerStyles = [
       !noShadow ? styles.shadow : null,
       transparent ? { backgroundColor: 'rgba(0,0,0,0)' } : null

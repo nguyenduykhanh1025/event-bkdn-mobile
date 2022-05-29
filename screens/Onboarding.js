@@ -89,7 +89,7 @@ export default class Onboarding extends React.Component {
                     style={{ fontFamily: 'montserrat-bold', fontSize: 14 }}
                     color={theme.COLORS.WHITE}
                   >
-                    GET STARTED
+                    GET STARTEDasdsad
                   </Text>
                 </Button>
               </Block>

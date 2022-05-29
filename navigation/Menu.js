@@ -6,26 +6,57 @@ import Images from '../constants/Images';
 import React from 'react';
 import nowTheme from '../constants/Theme';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { color } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
 const { width } = Dimensions.get('screen');
 
 function CustomDrawerContent({ drawerPosition, navigation, profile, focused, state, ...rest }) {
   const insets = useSafeArea();
-  const screens = ['Home', 'Components', 'Articles', 'Profile', 'Account'];
+  // 'Components', 'Articles', 'Profile', 'Account'
+  // const screens = ['Trang Chủ', 'Tin Tức', 'Sự Kiện', 'Tài Khoản', 'Thông Báo'];
+  const screens = [
+    {
+      'title': 'Sự Kiện',
+      'name': 'Home'
+    },
+    {
+      'title': 'Tin Tức',
+      'name': 'News'
+    },
+    // {
+    //   'title': 'Sự Kiện',
+    //   'name': 'Events'
+    // },
+    {
+      'title': 'Tài Khoản',
+      'name': 'Profile'
+    },
+    {
+      'title': 'Thông Báo',
+      'name': 'Notifies'
+    },
+    {
+      'title': 'QR Code',
+      'name': 'QrCode'
+    },
+  ]
+
   return (
     <Block style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
       <Block style={styles.header}>
-        <Image style={styles.logo} source={Images.Logo} />
-        <Block right style={styles.headerIcon}>
+        {/* <Image style={styles.logo} source={Images.Logo} /> */}
+        <Text style={styles.logo}>DUT</Text>
+        {/* <Block right style={styles.headerIcon}>
           <Icon name="align-left-22x" family="NowExtra" size={15} color={'black'} />
-        </Block>
+        </Block> */}
       </Block>
       <Block flex style={{ paddingLeft: 8, paddingRight: 14 }}>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
           {screens.map((item, index) => {
             return (
               <DrawerCustomItem
-                title={item}
+                title={item.title}
+                name={item.name}
                 key={index}
                 navigation={navigation}
                 focused={state.index === index ? true : false}
@@ -41,7 +72,7 @@ function CustomDrawerContent({ drawerPosition, navigation, profile, focused, sta
                 marginHorizontal: 10,
               }}
             />
-            <Text
+            {/* <Text
               color={nowTheme.COLORS.BLACK}
               style={{
                 marginTop: 30,
@@ -53,9 +84,9 @@ function CustomDrawerContent({ drawerPosition, navigation, profile, focused, sta
               }}
             >
               DOCUMENTATION
-            </Text>
+            </Text> */}
           </Block>
-          <DrawerCustomItem title="GETTING STARTED" navigation={navigation} />
+          {/* <DrawerCustomItem title="GETTING STARTED" navigation={navigation} /> */}
           <DrawerCustomItem title="LOGOUT" navigation={navigation} />
         </ScrollView>
       </Block>
@@ -78,8 +109,10 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 40,
-    width: 37,
+    // width: 37,
     tintColor: 'black',
+    fontSize: 25,
+    color: nowTheme.COLORS.PRIMARY
   },
 });
 
