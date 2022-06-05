@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   ImageBackground,
@@ -21,8 +21,50 @@ const DismissKeyboard = ({ children }) => (
 
 const Login = ({ navigation }) => {
 
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
   const onCLickGoToRegisterPage = () => {
     navigation.navigate('Register')
+  }
+
+  const onClickLogin = async () => {
+    console.log(email);
+    console.log(password);
+    // fetch('http://192.168.1.3:8000/api/auth/login', {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     email,
+    //     password
+    //   })
+    // }).then(res => {
+    //   console.log('ssssssssssssssssssssssssssss');
+    //   console.log(res);
+    // }).catch((error) => {
+    //   console.log('sdadasd');
+    //   console.error(error);
+    // });
+
+
+    try {
+      console.log(email, password);
+      const response = await fetch(
+        'http://192.168.1.3:8000/api/auth/login', {
+        method: 'POST',
+        body: {
+          'email': email,
+          'password': password
+        }
+      }
+      );
+      const json = await response.json();
+      console.log(json);
+      // return json.movies;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      console.log('ssssssa');
+    }
   }
 
   return (
@@ -50,64 +92,20 @@ const Login = ({ navigation }) => {
                       Đăng Nhập
                     </Text>
                   </Block>
-
-                  {/* <Block flex={0.5} row middle space="between" style={{ marginBottom: 18 }}>
-                    <GaButton
-                      round
-                      onlyIcon
-                      shadowless
-                      icon="twitter"
-                      iconFamily="Font-Awesome"
-                      iconColor={theme.COLORS.WHITE}
-                      iconSize={theme.SIZES.BASE * 1.625}
-                      color={nowTheme.COLORS.TWITTER}
-                      style={[styles.social, styles.shadow]}
-                    />
-
-                    <GaButton
-                      round
-                      onlyIcon
-                      shadowless
-                      icon="dribbble"
-                      iconFamily="Font-Awesome"
-                      iconColor={theme.COLORS.WHITE}
-                      iconSize={theme.SIZES.BASE * 1.625}
-                      color={nowTheme.COLORS.DRIBBBLE}
-                      style={[styles.social, styles.shadow]}
-                    />
-                    <GaButton
-                      round
-                      onlyIcon
-                      shadowless
-                      icon="facebook"
-                      iconFamily="Font-Awesome"
-                      iconColor={theme.COLORS.WHITE}
-                      iconSize={theme.SIZES.BASE * 1.625}
-                      color={nowTheme.COLORS.FACEBOOK}
-                      style={[styles.social, styles.shadow]}
-                    />
-                  </Block> */}
                 </Block>
-                {/* <Block flex={0.1} middle>
-                  <Text
-                    style={{
-                      fontFamily: 'montserrat-regular',
-                      textAlign: 'center'
-                    }}
-                    muted
-                    size={16}
-                  >
-                    or be classical
-                  </Text>
-                </Block> */}
                 <Block flex={1} middle space="between">
                   <Block center flex={0.5}>
                     <Block flex space="between">
                       <Block>
                         <Block width={width * 0.8}>
                           <Input
+                            value={email}
+                            onChangeText={(e) => {
+                              setEmail(e)
+                            }}
                             placeholder="Email"
                             style={styles.inputs}
+
                             iconContent={
                               <Icon
                                 size={16}
@@ -124,6 +122,8 @@ const Login = ({ navigation }) => {
                           <Input
                             placeholder="Mật Khẩu"
                             style={styles.inputs}
+                            value={password}
+                            onChangeText={(e) => setPassword(e)}
                             iconContent={
                               <Icon
                                 size={16}
@@ -138,13 +138,16 @@ const Login = ({ navigation }) => {
                       </Block>
                       <Block center>
                         <Button color="primary" round style={styles.createButton}>
-                          <Text
-                            style={{ fontFamily: 'montserrat-bold' }}
-                            size={14}
-                            color={nowTheme.COLORS.WHITE}
-                          >
-                            Đăng Nhập
-                          </Text>
+                          <TouchableOpacity onPress={onClickLogin}>
+                            <Text
+                              style={{ fontFamily: 'montserrat-bold' }}
+                              size={14}
+                              color={nowTheme.COLORS.WHITE}
+                            >
+                              Đăng Nhập
+                            </Text>
+                          </TouchableOpacity>
+
                         </Button>
                       </Block>
                       <Block
