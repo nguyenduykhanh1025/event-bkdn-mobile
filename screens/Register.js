@@ -5,7 +5,8 @@ import {
   Dimensions,
   StatusBar,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  TouchableOpacity
 } from 'react-native';
 import { Block, Checkbox, Text, Button as GaButton, theme } from 'galio-framework';
 
@@ -18,174 +19,253 @@ const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>{children}</TouchableWithoutFeedback>
 );
 
-class Register extends React.Component {
-  render() {
-    return (
-      <DismissKeyboard>
-        <Block flex middle>
-          <ImageBackground
-            source={Images.RegisterBackground}
-            style={styles.imageBackgroundContainer}
-            imageStyle={styles.imageBackground}
-          >
-            <Block flex middle>
-              <Block style={styles.registerContainer}>
-                <Block flex space="evenly">
-                  <Block flex={0.4} middle style={styles.socialConnect}>
-                    <Block flex={0.5} middle>
-                      <Text
-                        style={{
-                          fontFamily: 'montserrat-regular',
-                          textAlign: 'center'
-                        }}
-                        color="#333"
-                        size={24}
-                      >
-                        Register
-                      </Text>
-                    </Block>
+const Register = ({ navigation }) => {
 
-                    <Block flex={0.5} row middle space="between" style={{ marginBottom: 18 }}>
-                      <GaButton
-                        round
-                        onlyIcon
-                        shadowless
-                        icon="twitter"
-                        iconFamily="Font-Awesome"
-                        iconColor={theme.COLORS.WHITE}
-                        iconSize={theme.SIZES.BASE * 1.625}
-                        color={nowTheme.COLORS.TWITTER}
-                        style={[styles.social, styles.shadow]}
-                      />
+  const onCLickGoToLoginPage = () => {
+    // console.log('onCLickGoToLoginPage');
+    navigation.navigate('Login')
+  }
 
-                      <GaButton
-                        round
-                        onlyIcon
-                        shadowless
-                        icon="dribbble"
-                        iconFamily="Font-Awesome"
-                        iconColor={theme.COLORS.WHITE}
-                        iconSize={theme.SIZES.BASE * 1.625}
-                        color={nowTheme.COLORS.DRIBBBLE}
-                        style={[styles.social, styles.shadow]}
-                      />
-                      <GaButton
-                        round
-                        onlyIcon
-                        shadowless
-                        icon="facebook"
-                        iconFamily="Font-Awesome"
-                        iconColor={theme.COLORS.WHITE}
-                        iconSize={theme.SIZES.BASE * 1.625}
-                        color={nowTheme.COLORS.FACEBOOK}
-                        style={[styles.social, styles.shadow]}
-                      />
-                    </Block>
-                  </Block>
-                  <Block flex={0.1} middle>
+  return (
+    <DismissKeyboard>
+      <Block flex middle>
+        <ImageBackground
+          source={Images.RegisterBackground}
+          style={styles.imageBackgroundContainer}
+          imageStyle={styles.imageBackground}
+        >
+          <Block flex middle>
+            <Block style={styles.registerContainer}>
+              <Block flex space="evenly">
+                <Block flex={0.15} middle style={styles.socialConnect}>
+                  <Block flex={0.5} middle>
                     <Text
                       style={{
                         fontFamily: 'montserrat-regular',
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        fontWeight: 'bold'
                       }}
-                      muted
-                      size={16}
+                      color={nowTheme.COLORS.PRIMARY}
+                      size={28}
                     >
-                      or be classical
+                      Đăng Ký
                     </Text>
                   </Block>
-                  <Block flex={1} middle space="between">
-                    <Block center flex={0.9}>
-                      <Block flex space="between">
-                        <Block>
-                          <Block width={width * 0.8} style={{ marginBottom: 5 }}>
-                            <Input
-                              placeholder="First Name"
-                              style={styles.inputs}
-                              iconContent={
-                                <Icon
-                                  size={16}
-                                  color="#ADB5BD"
-                                  name="profile-circle"
-                                  family="NowExtra"
-                                  style={styles.inputIcons}
-                                />
-                              }
-                            />
-                          </Block>
-                          <Block width={width * 0.8} style={{ marginBottom: 5 }}>
-                            <Input
-                              placeholder="Last Name"
-                              style={styles.inputs}
-                              iconContent={
-                                <Icon
-                                  size={16}
-                                  color="#ADB5BD"
-                                  name="caps-small2x"
-                                  family="NowExtra"
-                                  style={styles.inputIcons}
-                                />
-                              }
-                            />
-                          </Block>
-                          <Block width={width * 0.8}>
-                            <Input
-                              placeholder="Email"
-                              style={styles.inputs}
-                              iconContent={
-                                <Icon
-                                  size={16}
-                                  color="#ADB5BD"
-                                  name="email-852x"
-                                  family="NowExtra"
-                                  style={styles.inputIcons}
-                                />
-                              }
-                            />
-                          </Block>
-                          <Block
-                            style={{ marginVertical: theme.SIZES.BASE, marginLeft: 15}}
-                            row
-                            width={width * 0.75}
+
+                  {/* <Block flex={0.5} row middle space="between" style={{ marginBottom: 18 }}>
+                    <GaButton
+                      round
+                      onlyIcon
+                      shadowless
+                      icon="twitter"
+                      iconFamily="Font-Awesome"
+                      iconColor={theme.COLORS.WHITE}
+                      iconSize={theme.SIZES.BASE * 1.625}
+                      color={nowTheme.COLORS.TWITTER}
+                      style={[styles.social, styles.shadow]}
+                    />
+
+                    <GaButton
+                      round
+                      onlyIcon
+                      shadowless
+                      icon="dribbble"
+                      iconFamily="Font-Awesome"
+                      iconColor={theme.COLORS.WHITE}
+                      iconSize={theme.SIZES.BASE * 1.625}
+                      color={nowTheme.COLORS.DRIBBBLE}
+                      style={[styles.social, styles.shadow]}
+                    />
+                    <GaButton
+                      round
+                      onlyIcon
+                      shadowless
+                      icon="facebook"
+                      iconFamily="Font-Awesome"
+                      iconColor={theme.COLORS.WHITE}
+                      iconSize={theme.SIZES.BASE * 1.625}
+                      color={nowTheme.COLORS.FACEBOOK}
+                      style={[styles.social, styles.shadow]}
+                    />
+                  </Block> */}
+                </Block>
+                {/* <Block flex={0.1} middle>
+                  <Text
+                    style={{
+                      fontFamily: 'montserrat-regular',
+                      textAlign: 'center'
+                    }}
+                    muted
+                    size={16}
+                  >
+                    or be classical
+                  </Text>
+                </Block> */}
+                <Block flex={1} middle space="between">
+                  <Block center flex={0.9}>
+                    <Block flex space="between">
+                      <Block>
+                        <Block width={width * 0.8} style={{ marginBottom: 5 }}>
+                          <Input
+                            placeholder="Họ Và Tên"
+                            style={styles.inputs}
+                            iconContent={
+                              <Icon
+                                size={16}
+                                color="#ADB5BD"
+                                name="profile-circle"
+                                family="NowExtra"
+                                style={styles.inputIcons}
+                              />
+                            }
+                          />
+                        </Block>
+                        <Block width={width * 0.8}>
+                          <Input
+                            placeholder="Email"
+                            style={styles.inputs}
+                            iconContent={
+                              <Icon
+                                size={16}
+                                color="#ADB5BD"
+                                name="email-852x"
+                                family="NowExtra"
+                                style={styles.inputIcons}
+                              />
+                            }
+                          />
+                        </Block>
+                        <Block width={width * 0.8}>
+                          <Input
+                            placeholder="Số Điện Thoại"
+                            style={styles.inputs}
+                            iconContent={
+                              <Icon
+                                size={16}
+                                color="#ADB5BD"
+                                name="phone"
+                                family="AntDesign"
+                                style={styles.inputIcons}
+                              />
+                            }
+                          />
+                        </Block>
+                        <Block width={width * 0.8}>
+                          <Input
+                            placeholder="Mã Số Sinh Viên"
+                            style={styles.inputs}
+                            iconContent={
+                              <Icon
+                                size={16}
+                                color="#ADB5BD"
+                                name="idcard"
+                                family="AntDesign"
+                                style={styles.inputIcons}
+                              />
+                            }
+                          />
+                        </Block>
+                        <Block width={width * 0.8}>
+                          <Input
+                            placeholder="Mật Khẩu"
+                            style={styles.inputs}
+                            iconContent={
+                              <Icon
+                                size={16}
+                                color="#ADB5BD"
+                                name="text"
+                                family="Entypo"
+                                style={styles.inputIcons}
+                              />
+                            }
+                          />
+                        </Block>
+                        <Block width={width * 0.8}>
+                          <Input
+                            placeholder="Nhập Lại Mật Khẩu"
+                            style={styles.inputs}
+                            iconContent={
+                              <Icon
+                                size={16}
+                                color="#ADB5BD"
+                                name="text"
+                                family="Entypo"
+                                style={styles.inputIcons}
+                              />
+                            }
+                          />
+                        </Block>
+                        {/* <Block
+                          style={{ marginVertical: theme.SIZES.BASE, marginLeft: 15 }}
+                          row
+                          width={width * 0.75}
+                        >
+                          <Checkbox
+                            checkboxStyle={{
+                              borderWidth: 1,
+                              borderRadius: 2,
+                              borderColor: '#E3E3E3'
+                            }}
+                            color={nowTheme.COLORS.PRIMARY}
+                            labelStyle={{
+                              color: nowTheme.COLORS.HEADER,
+                              fontFamily: 'montserrat-regular'
+                            }}
+                            label="I agree to the terms and conditions."
+                          />
+                        </Block> */}
+                      </Block>
+                      <Block center>
+                        <Button color="primary" round style={styles.createButton}>
+                          <Text
+                            style={{ fontFamily: 'montserrat-bold' }}
+                            size={14}
+                            color={nowTheme.COLORS.WHITE}
                           >
-                            <Checkbox
-                              checkboxStyle={{
-                                borderWidth: 1,
-                                borderRadius: 2,
-                                borderColor: '#E3E3E3'
-                              }}
-                              color={nowTheme.COLORS.PRIMARY}
-                              labelStyle={{
-                                color: nowTheme.COLORS.HEADER,
-                                fontFamily: 'montserrat-regular'
-                              }}
-                              label="I agree to the terms and conditions."
-                            />
-                          </Block>
-                        </Block>
-                        <Block center>
-                          <Button color="primary" round style={styles.createButton}>
-                            <Text
-                              style={{ fontFamily: 'montserrat-bold' }}
-                              size={14}
-                              color={nowTheme.COLORS.WHITE}
-                            >
-                              Get Started
-                            </Text>
-                          </Button>
-                        </Block>
+                            Đăng Ký
+                          </Text>
+                        </Button>
+                      </Block>
+                      <Block
+                        center
+                        style={{
+                          flexDirection: 'row'
+                        }}
+                      >
+                        <Text
+                          style={{
+                          }}>
+                          Tôi đã có tài khoản. Đăng nhập
+                        </Text>
+                        <TouchableOpacity
+                          onPress={() => onCLickGoToLoginPage()}
+                          style={{
+                          }}
+                        >
+                          <Text
+                            color={nowTheme.COLORS.PRIMARY}>
+                            {` tại đây.`}
+                          </Text>
+
+                        </TouchableOpacity>
                       </Block>
                     </Block>
                   </Block>
                 </Block>
               </Block>
             </Block>
-          </ImageBackground>
-        </Block>
-      </DismissKeyboard>
-    );
-  }
+          </Block>
+        </ImageBackground>
+      </Block>
+    </DismissKeyboard>
+  );
 }
+
+// class Register extends React.Component {
+//   render() {
+
+//   }
+// }
 
 const styles = StyleSheet.create({
   imageBackgroundContainer: {

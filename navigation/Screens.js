@@ -19,11 +19,13 @@ import SettingsScreen from '../screens/Settings';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
+import Login from '../screens/Login';
 
 const { width } = Dimensions.get('screen');
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
 
 function ComponentsStack(props) {
   return (
@@ -71,24 +73,39 @@ function ArticlesStack(props) {
   );
 }
 
-function AccountStack(props) {
+function RegisterStack(props) {
   return (
     <Stack.Navigator
-      initialRouteName="Account"
+      // initialRouteName="Register"
       screenOptions={{
         mode: 'card',
-        headerShown: 'screen',
+        // headerShown: 'screen',
+        headerShown: false,
       }}
     >
       <Stack.Screen
-        name="Account"
+        name="Register"
         component={Register}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header transparent title="Create Account" navigation={navigation} scene={scene} />
-          ),
-          headerTransparent: true,
-        }}
+        options={{ headerShown: false, headerTransparent: true, }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function LoginStack(props) {
+  return (
+    <Stack.Navigator
+      // initialRouteName="Register"
+      screenOptions={{
+        mode: 'card',
+        // headerShown: 'screen',
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerShown: false, headerTransparent: true, }}
       />
     </Stack.Navigator>
   );
@@ -130,72 +147,120 @@ function ProfileStack(props) {
 
 function HomeStack(props) {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        mode: 'card',
-        headerShown: 'screen',
-      }}
-    >
-      <Stack.Screen
-        name="Home"
-        component={Home}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header title="Home" search options navigation={navigation} scene={scene} />
-          ),
-          cardStyle: { backgroundColor: '#FFFFFF' },
-        }}
-      />
-      <Stack.Screen
-        name="Pro"
-        component={Pro}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header title="" back white transparent navigation={navigation} scene={scene} />
-          ),
-          headerTransparent: true,
-        }}
-      />
-    </Stack.Navigator>
+    // <Stack.Navigator
+    //   screenOptions={{
+    //     mode: 'card',
+    //     headerShown: 'screen',
+    //   }}
+    // >
+    //   <Stack.Screen
+    //     name="Home"
+    //     component={Home}
+    //     options={{
+    //       header: ({ navigation, scene }) => (
+    //         <Header title="Trang Chủ" search options navigation={navigation} scene={scene} />
+    //       ),
+    //       cardStyle: { backgroundColor: '#FFFFFF' },
+    //       title: 'Trang Chủ'
+    //     }}
+    //   />
+
+    // </Stack.Navigator>
+    <Tab.Navigator screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'Đang tham gia') {
+          iconName = 'carryout'
+        } else if (route.name === 'Đã tham gia') {
+          iconName = 'clockcircleo'
+        } else {
+          iconName = 'flag'
+        }
+
+        // if (route.name === 'Home') {
+        //   iconName = focused
+        //     ? 'ios-information-circle'
+        //     : 'ios-information-circle-outline';
+        // } else if (route.name === 'Settings') {
+        //   iconName = focused ? 'ios-list-box' : 'ios-list';
+        // }
+
+        // You can return any component that you like here!
+        return <Icon name={iconName} family="AntDesign" size={size} color={focused ? nowTheme.COLORS.PRIMARY : 'black'} />;
+      },
+      tabBarActiveTintColor: 'tomato',
+      tabBarInactiveTintColor: 'gray',
+      headerShown: false
+    })}>
+      <Tab.Screen name="Đang tham gia" component={Home} />
+      <Tab.Screen name="Đã tham gia" component={Home} />
+      <Tab.Screen name="Sắp diễn ra" component={Home} />
+    </Tab.Navigator>
   );
 }
+
+// function RegisterStack(props) {
+//   return (
+//     <Stack.Navigator
+//       initialRouteName="Account"
+//       screenOptions={{
+//         mode: 'card',
+//         headerShown: 'screen',
+//       }}
+//     >
+//       <Stack.Screen
+//         name="Account"
+//         component={Register}
+//         options={{
+//           header: ({ navigation, scene }) => (
+//             <Header transparent title="Create Account" navigation={navigation} scene={scene} />
+//           ),
+//           headerTransparent: true,
+//         }}
+//       />
+//     </Stack.Navigator>
+//   );
+// }
 
 function AppStack(props) {
   return (
     <Drawer.Navigator
       style={{ flex: 1 }}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
-      drawerStyle={{
-        backgroundColor: nowTheme.COLORS.PRIMARY,
-        width: width * 0.8,
-      }}
-      drawerContentOptions={{
-        activeTintcolor: nowTheme.COLORS.WHITE,
-        inactiveTintColor: nowTheme.COLORS.WHITE,
-        activeBackgroundColor: 'transparent',
-        itemStyle: {
-          width: width * 0.75,
-          backgroundColor: 'transparent',
-          paddingVertical: 16,
-          paddingHorizonal: 12,
-          justifyContent: 'center',
-          alignContent: 'center',
-          alignItems: 'center',
-          overflow: 'hidden',
-        },
-        labelStyle: {
-          fontSize: 18,
-          marginLeft: 12,
-          fontWeight: 'normal',
-        },
-      }}
+      // drawerStyle={{
+      //   backgroundColor: nowTheme.COLORS.PRIMARY,
+      //   width: width * 0.8,
+      // }}
+      // drawerContentOptions={{
+      //   activeTintcolor: nowTheme.COLORS.WHITE,
+      //   inactiveTintColor: nowTheme.COLORS.WHITE,
+      //   activeBackgroundColor: 'transparent',
+      //   itemStyle: {
+      //     width: width * 0.75,
+      //     backgroundColor: 'transparent',
+      //     paddingVertical: 16,
+      //     paddingHorizonal: 12,
+      //     justifyContent: 'center',
+      //     alignContent: 'center',
+      //     alignItems: 'center',
+      //     overflow: 'hidden',
+      //   },
+      //   labelStyle: {
+      //     fontSize: 18,
+      //     marginLeft: 12,
+      //     fontWeight: 'normal',
+      //   },
+      // }}
       initialRouteName="Home"
     >
-      <Drawer.Screen name="Home" component={HomeStack} />
-      <Drawer.Screen name="Components" component={ComponentsStack} />
-      <Drawer.Screen name="Articles" component={ArticlesStack} />
+      <Drawer.Screen name="Home" component={HomeStack} options={{ title: 'Sự kiện' }} />
+      {/* <Drawer.Screen name="Components" component={ComponentsStack} /> */}
+      {/* <Drawer.Screen name="Articles" component={ArticlesStack} /> */}
       <Drawer.Screen name="Profile" component={ProfileStack} />
-      <Drawer.Screen name="Account" component={AccountStack} />
+      <Drawer.Screen name="Register" component={RegisterStack} options={{ headerShown: false }} />
+      <Drawer.Screen name="Login" component={LoginStack} options={{ headerShown: false }} />
+      {/* <Drawer.Screen name="Register" component={RegisterStack} /> */}
     </Drawer.Navigator>
   );
 }
@@ -208,13 +273,13 @@ export default function OnboardingStack(props) {
         headerShown: false,
       }}
     >
-      <Stack.Screen
-        name="Onboarding"
-        component={Onboarding}
+      {/* <Stack.Screen
+        name="Home"
+        component={HomeStack}
         option={{
           headerTransparent: true,
         }}
-      />
+      /> */}
       <Stack.Screen name="App" component={AppStack} />
     </Stack.Navigator>
   );

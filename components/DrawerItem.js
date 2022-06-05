@@ -7,10 +7,10 @@ import nowTheme from '../constants/Theme';
 
 class DrawerItem extends React.Component {
   renderIcon = () => {
-    const { title, focused } = this.props;
+    const { title, name, focused } = this.props;
 
     switch (title) {
-      case 'Home':
+      case 'Trang Chủ':
         return (
           <Icon
             name="app2x"
@@ -20,27 +20,27 @@ class DrawerItem extends React.Component {
             style={{ opacity: 0.5 }}
           />
         );
-      case 'Components':
+      case 'Tin Tức':
         return (
           <Icon
-            name="atom2x"
-            family="NowExtra"
+            name="news"
+            family="Entypo"
             size={18}
             color={focused ? nowTheme.COLORS.PRIMARY : 'black'}
             style={{ opacity: 0.5 }}
           />
         );
-      case 'Articles':
+      case 'Sự Kiện':
         return (
           <Icon
-            name="paper"
-            family="NowExtra"
+            name="event"
+            family="MaterialIcons"
             size={18}
             color={focused ? nowTheme.COLORS.PRIMARY : 'black'}
             style={{ opacity: 0.5 }}
           />
         );
-      case 'Profile':
+      case 'Tài Khoản':
         return (
           <Icon
             name="profile-circle"
@@ -50,21 +50,21 @@ class DrawerItem extends React.Component {
             style={{ opacity: 0.5 }}
           />
         );
-      case 'Account':
+      case 'Thông Báo':
         return (
           <Icon
-            name="badge2x"
-            family="NowExtra"
+            name="notification"
+            family="AntDesign"
             size={18}
             color={focused ? nowTheme.COLORS.PRIMARY : 'black'}
             style={{ opacity: 0.5 }}
           />
         );
-      case 'Settings':
+      case 'QR Code':
         return (
           <Icon
-            name="settings-gear-642x"
-            family="NowExtra"
+            name="qrcode"
+            family="AntDesign"
             size={18}
             color={focused ? nowTheme.COLORS.PRIMARY : 'black'}
             style={{ opacity: 0.5 }}
@@ -105,7 +105,7 @@ class DrawerItem extends React.Component {
   };
 
   render() {
-    const { focused, title, navigation } = this.props;
+    const { focused, title, name, navigation } = this.props;
 
     const containerStyles = [
       styles.defaultStyle,
@@ -116,11 +116,11 @@ class DrawerItem extends React.Component {
       <TouchableOpacity
         style={{ height: 60 }}
         onPress={() =>
-          title == 'GETTING STARTED'
+          name == 'GETTING STARTED'
             ? Linking.openURL('https://demos.creative-tim.com/now-ui-pro-react-native/docs/').catch(
-                (err) => console.error('An error occurred', err)
-              )
-            : navigation.navigate(title == 'LOGOUT' ? 'Onboarding' : title)
+              (err) => console.error('An error occurred', err)
+            )
+            : navigation.navigate(name == 'LOGOUT' ? 'Onboarding' : name)
         }
       >
         <Block flex row style={containerStyles}>

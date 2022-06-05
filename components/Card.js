@@ -88,7 +88,7 @@ class Card extends React.Component {
                 )}
             </Block>
             <Block right={ctaRight ? true : false}>
-              <Text
+              {/* <Text
                 style={styles.articleButton}
                 size={12}
                 muted={!ctaColor}
@@ -96,7 +96,7 @@ class Card extends React.Component {
                 bold
               >
                 {item.cta}
-              </Text>
+              </Text> */}
             </Block>
           </Block>
         </TouchableWithoutFeedback>
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.COLORS.WHITE,
     marginVertical: theme.SIZES.BASE,
     borderWidth: 0,
-    minHeight: 114,
+    height: 90,
     marginBottom: 4
   },
   cardTitle: {
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     borderRadius: 3,
     elevation: 1,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   image: {
     // borderRadius: 3,
