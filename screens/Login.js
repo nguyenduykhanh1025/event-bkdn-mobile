@@ -6,7 +6,7 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   Keyboard,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import { Block, Checkbox, Text, Button as GaButton, theme } from 'galio-framework';
 
@@ -14,58 +14,34 @@ import { Button, Icon, Input } from '../components';
 import { Images, nowTheme } from '../constants';
 
 const { width, height } = Dimensions.get('screen');
+import { authService } from '../services';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>{children}</TouchableWithoutFeedback>
 );
 
 const Login = ({ navigation }) => {
-
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const onCLickGoToRegisterPage = () => {
-    navigation.navigate('Register')
-  }
+    navigation.navigate('Register');
+  };
 
   const onClickLogin = async () => {
-    console.log(email);
-    console.log(password);
-    // fetch('http://192.168.1.3:8000/api/auth/login', {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     email,
-    //     password
-    //   })
-    // }).then(res => {
-    //   console.log('ssssssssssssssssssssssssssss');
-    //   console.log(res);
-    // }).catch((error) => {
-    //   console.log('sdadasd');
-    //   console.error(error);
-    // });
-
-
+    const payload = {
+      email: email,
+      password: password,
+    };
     try {
-      console.log(email, password);
-      const response = await fetch(
-        'http://192.168.1.3:8000/api/auth/login', {
-        method: 'POST',
-        body: {
-          'email': email,
-          'password': password
-        }
-      }
-      );
-      const json = await response.json();
-      console.log(json);
-      // return json.movies;
-    } catch (error) {
-      console.error(error);
+      const res = await authService.login(payload);
+      await AsyncStorage.setItem('@token', res.data.data.access_token);
+      navigation.navigate('Home');
+    } catch (err) {
     } finally {
-      console.log('ssssssa');
     }
-  }
+  };
 
   return (
     <DismissKeyboard>
@@ -84,7 +60,7 @@ const Login = ({ navigation }) => {
                       style={{
                         fontFamily: 'montserrat-regular',
                         textAlign: 'center',
-                        fontWeight: 'bold'
+                        fontWeight: 'bold',
                       }}
                       color={nowTheme.COLORS.PRIMARY}
                       size={28}
@@ -101,11 +77,10 @@ const Login = ({ navigation }) => {
                           <Input
                             value={email}
                             onChangeText={(e) => {
-                              setEmail(e)
+                              setEmail(e);
                             }}
                             placeholder="Email"
                             style={styles.inputs}
-
                             iconContent={
                               <Icon
                                 size={16}
@@ -147,30 +122,17 @@ const Login = ({ navigation }) => {
                               Đăng Nhập
                             </Text>
                           </TouchableOpacity>
-
                         </Button>
                       </Block>
                       <Block
                         center
                         style={{
-                          flexDirection: 'row'
+                          flexDirection: 'row',
                         }}
                       >
-                        <Text
-                          style={{
-                          }}>
-                          Tôi chưa có tài khoản. Đăng ký
-                        </Text>
-                        <TouchableOpacity
-                          onPress={() => onCLickGoToRegisterPage()}
-                          style={{
-                          }}
-                        >
-                          <Text
-                            color={nowTheme.COLORS.PRIMARY}>
-                            {` tại đây.`}
-                          </Text>
-
+                        <Text style={{}}>Tôi chưa có tài khoản. Đăng ký</Text>
+                        <TouchableOpacity onPress={() => onCLickGoToRegisterPage()} style={{}}>
+                          <Text color={nowTheme.COLORS.PRIMARY}>{` tại đây.`}</Text>
                         </TouchableOpacity>
                       </Block>
                     </Block>
@@ -183,7 +145,7 @@ const Login = ({ navigation }) => {
       </Block>
     </DismissKeyboard>
   );
-}
+};
 
 // class Login extends React.Component {
 //   render() {
@@ -196,11 +158,11 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
     padding: 0,
-    zIndex: 1
+    zIndex: 1,
   },
   imageBackground: {
     width: width,
-    height: height
+    height: height,
   },
   registerContainer: {
     marginTop: 55,
@@ -211,15 +173,15 @@ const styles = StyleSheet.create({
     shadowColor: nowTheme.COLORS.BLACK,
     shadowOffset: {
       width: 0,
-      height: 4
+      height: 4,
     },
     shadowRadius: 8,
     shadowOpacity: 0.1,
     elevation: 1,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   socialConnect: {
-    backgroundColor: nowTheme.COLORS.WHITE
+    backgroundColor: nowTheme.COLORS.WHITE,
     // borderBottomWidth: StyleSheet.hairlineWidth,
     // borderColor: "rgba(136, 152, 170, 0.3)"
   },
@@ -230,43 +192,43 @@ const styles = StyleSheet.create({
     shadowColor: nowTheme.COLORS.BLACK,
     shadowOffset: {
       width: 0,
-      height: 4
+      height: 4,
     },
     shadowRadius: 8,
     shadowOpacity: 0.1,
-    elevation: 1
+    elevation: 1,
   },
   socialTextButtons: {
     color: nowTheme.COLORS.PRIMARY,
     fontWeight: '800',
-    fontSize: 14
+    fontSize: 14,
   },
   inputIcons: {
     marginRight: 12,
-    color: nowTheme.COLORS.ICON_INPUT
+    color: nowTheme.COLORS.ICON_INPUT,
   },
   inputs: {
     borderWidth: 1,
     borderColor: '#E3E3E3',
-    borderRadius: 21.5
+    borderRadius: 21.5,
   },
   passwordCheck: {
     paddingLeft: 2,
     paddingTop: 6,
-    paddingBottom: 15
+    paddingBottom: 15,
   },
   createButton: {
     width: width * 0.5,
     marginTop: 25,
-    marginBottom: 40
+    marginBottom: 40,
   },
   social: {
     width: theme.SIZES.BASE * 3.5,
     height: theme.SIZES.BASE * 3.5,
     borderRadius: theme.SIZES.BASE * 1.75,
     justifyContent: 'center',
-    marginHorizontal: 10
-  }
+    marginHorizontal: 10,
+  },
 });
 
 export default Login;

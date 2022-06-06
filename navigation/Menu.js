@@ -87,7 +87,7 @@ function CustomDrawerContent({ drawerPosition, navigation, profile, focused, sta
             </Text> */}
           </Block>
           {/* <DrawerCustomItem title="GETTING STARTED" navigation={navigation} /> */}
-          <DrawerCustomItem title="LOGOUT" navigation={navigation} />
+          <DrawerCustomItem title="LOGOUT" navigation={navigation} name="LOGOUT"/>
           {/* <DrawerCustomItem title="LOGOUT" navigation={navigation} /> */}
         </ScrollView>
       </Block>
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   logo: {
     height: 40,
     // width: 37,
-    tintColor: 'black',
+    // tintColor: 'black',
     fontSize: 25,
     color: nowTheme.COLORS.PRIMARY
   },

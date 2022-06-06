@@ -4,7 +4,7 @@ import { Linking, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from './Icon';
 import React from 'react';
 import nowTheme from '../constants/Theme';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 class DrawerItem extends React.Component {
   renderIcon = () => {
     const { title, name, focused } = this.props;
@@ -104,6 +104,11 @@ class DrawerItem extends React.Component {
     }
   };
 
+  onCLickLogout = () => {
+    AsyncStorage.removeItem('@token')
+    this.props.navigation.navigate('Login')
+  };
+
   render() {
     const { focused, title, name, navigation } = this.props;
 
@@ -115,13 +120,12 @@ class DrawerItem extends React.Component {
     return (
       <TouchableOpacity
         style={{ height: 60 }}
-        onPress={() =>
-          name == 'GETTING STARTED'
-            ? Linking.openURL('https://demos.creative-tim.com/now-ui-pro-react-native/docs/').catch(
-              (err) => console.error('An error occurred', err)
-            )
-            : navigation.navigate(name == 'LOGOUT' ? 'Onboarding' : name)
-        }
+        onPress={() => {
+          console.log('name', name);
+          name == 'LOGOUT'
+            ? this.onCLickLogout()
+            : navigation.navigate(name == 'LOGOUT' ? 'Onboarding' : name);
+        }}
       >
         <Block flex row style={containerStyles}>
           <Block middle flex={0.1} style={{ marginRight: 5 }}>

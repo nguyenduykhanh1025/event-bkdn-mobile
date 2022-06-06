@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   ImageBackground,
@@ -6,12 +6,13 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   Keyboard,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import { Block, Checkbox, Text, Button as GaButton, theme } from 'galio-framework';
 
 import { Button, Icon, Input } from '../components';
 import { Images, nowTheme } from '../constants';
+import { authService } from '../services';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -20,11 +21,33 @@ const DismissKeyboard = ({ children }) => (
 );
 
 const Register = ({ navigation }) => {
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [idStudent, setIdStudent] = useState('');
+  const [password, setPassword] = useState('');
 
   const onCLickGoToLoginPage = () => {
-    // console.log('onCLickGoToLoginPage');
-    navigation.navigate('Login')
-  }
+    navigation.navigate('Login');
+  };
+
+  const onClickRegister = async () => {
+    const payload = {
+      first_name: fullName,
+      last_name: '',
+      email,
+      phone_number: phoneNumber,
+      id_student: idStudent,
+      password: password,
+    };
+
+    try {
+      await authService.registerParticipantAccount(payload);
+      navigation.navigate('Login');
+    } catch (err) {
+    } finally {
+    }
+  };
 
   return (
     <DismissKeyboard>
@@ -43,7 +66,7 @@ const Register = ({ navigation }) => {
                       style={{
                         fontFamily: 'montserrat-regular',
                         textAlign: 'center',
-                        fontWeight: 'bold'
+                        fontWeight: 'bold',
                       }}
                       color={nowTheme.COLORS.PRIMARY}
                       size={28}
@@ -51,56 +74,7 @@ const Register = ({ navigation }) => {
                       Đăng Ký
                     </Text>
                   </Block>
-
-                  {/* <Block flex={0.5} row middle space="between" style={{ marginBottom: 18 }}>
-                    <GaButton
-                      round
-                      onlyIcon
-                      shadowless
-                      icon="twitter"
-                      iconFamily="Font-Awesome"
-                      iconColor={theme.COLORS.WHITE}
-                      iconSize={theme.SIZES.BASE * 1.625}
-                      color={nowTheme.COLORS.TWITTER}
-                      style={[styles.social, styles.shadow]}
-                    />
-
-                    <GaButton
-                      round
-                      onlyIcon
-                      shadowless
-                      icon="dribbble"
-                      iconFamily="Font-Awesome"
-                      iconColor={theme.COLORS.WHITE}
-                      iconSize={theme.SIZES.BASE * 1.625}
-                      color={nowTheme.COLORS.DRIBBBLE}
-                      style={[styles.social, styles.shadow]}
-                    />
-                    <GaButton
-                      round
-                      onlyIcon
-                      shadowless
-                      icon="facebook"
-                      iconFamily="Font-Awesome"
-                      iconColor={theme.COLORS.WHITE}
-                      iconSize={theme.SIZES.BASE * 1.625}
-                      color={nowTheme.COLORS.FACEBOOK}
-                      style={[styles.social, styles.shadow]}
-                    />
-                  </Block> */}
                 </Block>
-                {/* <Block flex={0.1} middle>
-                  <Text
-                    style={{
-                      fontFamily: 'montserrat-regular',
-                      textAlign: 'center'
-                    }}
-                    muted
-                    size={16}
-                  >
-                    or be classical
-                  </Text>
-                </Block> */}
                 <Block flex={1} middle space="between">
                   <Block center flex={0.9}>
                     <Block flex space="between">
@@ -109,6 +83,10 @@ const Register = ({ navigation }) => {
                           <Input
                             placeholder="Họ Và Tên"
                             style={styles.inputs}
+                            value={fullName}
+                            onChangeText={(e) => {
+                              setFullName(e);
+                            }}
                             iconContent={
                               <Icon
                                 size={16}
@@ -124,6 +102,10 @@ const Register = ({ navigation }) => {
                           <Input
                             placeholder="Email"
                             style={styles.inputs}
+                            value={email}
+                            onChangeText={(e) => {
+                              setEmail(e);
+                            }}
                             iconContent={
                               <Icon
                                 size={16}
@@ -139,6 +121,10 @@ const Register = ({ navigation }) => {
                           <Input
                             placeholder="Số Điện Thoại"
                             style={styles.inputs}
+                            value={phoneNumber}
+                            onChangeText={(e) => {
+                              setPhoneNumber(e);
+                            }}
                             iconContent={
                               <Icon
                                 size={16}
@@ -154,6 +140,10 @@ const Register = ({ navigation }) => {
                           <Input
                             placeholder="Mã Số Sinh Viên"
                             style={styles.inputs}
+                            value={idStudent}
+                            onChangeText={(e) => {
+                              setIdStudent(e);
+                            }}
                             iconContent={
                               <Icon
                                 size={16}
@@ -169,6 +159,10 @@ const Register = ({ navigation }) => {
                           <Input
                             placeholder="Mật Khẩu"
                             style={styles.inputs}
+                            value={password}
+                            onChangeText={(e) => {
+                              setPassword(e);
+                            }}
                             iconContent={
                               <Icon
                                 size={16}
@@ -217,36 +211,26 @@ const Register = ({ navigation }) => {
                       </Block>
                       <Block center>
                         <Button color="primary" round style={styles.createButton}>
-                          <Text
-                            style={{ fontFamily: 'montserrat-bold' }}
-                            size={14}
-                            color={nowTheme.COLORS.WHITE}
-                          >
-                            Đăng Ký
-                          </Text>
+                          <TouchableOpacity onPress={onClickRegister}>
+                            <Text
+                              style={{ fontFamily: 'montserrat-bold' }}
+                              size={14}
+                              color={nowTheme.COLORS.WHITE}
+                            >
+                              Đăng Ký
+                            </Text>
+                          </TouchableOpacity>
                         </Button>
                       </Block>
                       <Block
                         center
                         style={{
-                          flexDirection: 'row'
+                          flexDirection: 'row',
                         }}
                       >
-                        <Text
-                          style={{
-                          }}>
-                          Tôi đã có tài khoản. Đăng nhập
-                        </Text>
-                        <TouchableOpacity
-                          onPress={() => onCLickGoToLoginPage()}
-                          style={{
-                          }}
-                        >
-                          <Text
-                            color={nowTheme.COLORS.PRIMARY}>
-                            {` tại đây.`}
-                          </Text>
-
+                        <Text style={{}}>Tôi đã có tài khoản. Đăng nhập</Text>
+                        <TouchableOpacity onPress={() => onCLickGoToLoginPage()} style={{}}>
+                          <Text color={nowTheme.COLORS.PRIMARY}>{` tại đây.`}</Text>
                         </TouchableOpacity>
                       </Block>
                     </Block>
@@ -259,7 +243,7 @@ const Register = ({ navigation }) => {
       </Block>
     </DismissKeyboard>
   );
-}
+};
 
 // class Register extends React.Component {
 //   render() {
@@ -272,11 +256,11 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
     padding: 0,
-    zIndex: 1
+    zIndex: 1,
   },
   imageBackground: {
     width: width,
-    height: height
+    height: height,
   },
   registerContainer: {
     marginTop: 55,
@@ -287,15 +271,15 @@ const styles = StyleSheet.create({
     shadowColor: nowTheme.COLORS.BLACK,
     shadowOffset: {
       width: 0,
-      height: 4
+      height: 4,
     },
     shadowRadius: 8,
     shadowOpacity: 0.1,
     elevation: 1,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   socialConnect: {
-    backgroundColor: nowTheme.COLORS.WHITE
+    backgroundColor: nowTheme.COLORS.WHITE,
     // borderBottomWidth: StyleSheet.hairlineWidth,
     // borderColor: "rgba(136, 152, 170, 0.3)"
   },
@@ -306,43 +290,43 @@ const styles = StyleSheet.create({
     shadowColor: nowTheme.COLORS.BLACK,
     shadowOffset: {
       width: 0,
-      height: 4
+      height: 4,
     },
     shadowRadius: 8,
     shadowOpacity: 0.1,
-    elevation: 1
+    elevation: 1,
   },
   socialTextButtons: {
     color: nowTheme.COLORS.PRIMARY,
     fontWeight: '800',
-    fontSize: 14
+    fontSize: 14,
   },
   inputIcons: {
     marginRight: 12,
-    color: nowTheme.COLORS.ICON_INPUT
+    color: nowTheme.COLORS.ICON_INPUT,
   },
   inputs: {
     borderWidth: 1,
     borderColor: '#E3E3E3',
-    borderRadius: 21.5
+    borderRadius: 21.5,
   },
   passwordCheck: {
     paddingLeft: 2,
     paddingTop: 6,
-    paddingBottom: 15
+    paddingBottom: 15,
   },
   createButton: {
     width: width * 0.5,
     marginTop: 25,
-    marginBottom: 40
+    marginBottom: 40,
   },
   social: {
     width: theme.SIZES.BASE * 3.5,
     height: theme.SIZES.BASE * 3.5,
     borderRadius: theme.SIZES.BASE * 1.75,
     justifyContent: 'center',
-    marginHorizontal: 10
-  }
+    marginHorizontal: 10,
+  },
 });
 
 export default Register;
