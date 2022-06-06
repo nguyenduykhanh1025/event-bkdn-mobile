@@ -147,25 +147,6 @@ function ProfileStack(props) {
 
 function HomeStack(props) {
   return (
-    // <Stack.Navigator
-    //   screenOptions={{
-    //     mode: 'card',
-    //     headerShown: 'screen',
-    //   }}
-    // >
-    //   <Stack.Screen
-    //     name="Home"
-    //     component={Home}
-    //     options={{
-    //       header: ({ navigation, scene }) => (
-    //         <Header title="Trang Chủ" search options navigation={navigation} scene={scene} />
-    //       ),
-    //       cardStyle: { backgroundColor: '#FFFFFF' },
-    //       title: 'Trang Chủ'
-    //     }}
-    //   />
-
-    // </Stack.Navigator>
     <Tab.Navigator screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
@@ -177,16 +158,6 @@ function HomeStack(props) {
         } else {
           iconName = 'flag'
         }
-
-        // if (route.name === 'Home') {
-        //   iconName = focused
-        //     ? 'ios-information-circle'
-        //     : 'ios-information-circle-outline';
-        // } else if (route.name === 'Settings') {
-        //   iconName = focused ? 'ios-list-box' : 'ios-list';
-        // }
-
-        // You can return any component that you like here!
         return <Icon name={iconName} family="AntDesign" size={size} color={focused ? nowTheme.COLORS.PRIMARY : 'black'} />;
       },
       tabBarActiveTintColor: 'tomato',

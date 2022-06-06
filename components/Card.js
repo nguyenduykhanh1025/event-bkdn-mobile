@@ -17,7 +17,7 @@ class Card extends React.Component {
       ctaColor,
       imageStyle,
       ctaRight,
-      titleStyle
+      titleStyle,
     } = this.props;
 
     const imageStyles = [full ? styles.fullImage : styles.horizontalImage, imageStyle];
@@ -26,7 +26,7 @@ class Card extends React.Component {
     const imgContainer = [
       styles.imageContainer,
       horizontal ? styles.horizontalStyles : styles.verticalStyles,
-      styles.shadow
+      styles.shadow,
     ];
 
     return (
@@ -36,13 +36,15 @@ class Card extends React.Component {
             <Image resizeMode="cover" source={item.image} style={imageStyles} />
           </Block>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+        <TouchableWithoutFeedback
+          onPress={() => navigation.navigate('Pro')}
+          style={styles.touchableCardDescription}
+        >
           <Block flex space="between" style={styles.cardDescription}>
             <Block flex>
               <Text
-                style={{ fontFamily: 'montserrat-regular' }}
+                style={{ fontFamily: 'montserrat-regular', fontWeight: 'bold' }}
                 size={14}
-                style={titleStyles}
                 color={nowTheme.COLORS.SECONDARY}
               >
                 {item.title}
@@ -58,21 +60,21 @@ class Card extends React.Component {
                   </Text>
                 </Block>
               ) : (
-                  <Block />
-                )}
+                <Block />
+              )}
               {item.description ? (
                 <Block flex center>
                   <Text
                     style={{ fontFamily: 'montserrat-regular', textAlign: 'center', padding: 15 }}
                     size={14}
-                    color={"#9A9A9A"}
+                    color={'#9A9A9A'}
                   >
                     {item.description}
                   </Text>
                 </Block>
               ) : (
-                  <Block />
-                )}
+                <Block />
+              )}
               {item.body ? (
                 <Block flex left>
                   <Text
@@ -84,19 +86,19 @@ class Card extends React.Component {
                   </Text>
                 </Block>
               ) : (
-                  <Block />
-                )}
+                <Block />
+              )}
             </Block>
             <Block right={ctaRight ? true : false}>
-              {/* <Text
+              <Text
                 style={styles.articleButton}
                 size={12}
                 muted={!ctaColor}
                 color={ctaColor || nowTheme.COLORS.ACTIVE}
                 bold
               >
-                {item.cta}
-              </Text> */}
+                Chi Tiết
+              </Text>
             </Block>
           </Block>
         </TouchableWithoutFeedback>
@@ -113,7 +115,7 @@ Card.propTypes = {
   imageStyle: PropTypes.any,
   ctaRight: PropTypes.bool,
   titleStyle: PropTypes.any,
-  textBodyStyle: PropTypes.any
+  textBodyStyle: PropTypes.any,
 };
 
 const styles = StyleSheet.create({
@@ -121,16 +123,16 @@ const styles = StyleSheet.create({
     backgroundColor: theme.COLORS.WHITE,
     marginVertical: theme.SIZES.BASE,
     borderWidth: 0,
-    height: 90,
-    marginBottom: 4
+    height: 120,
+    marginBottom: 4,
   },
   cardTitle: {
     paddingHorizontal: 9,
     paddingTop: 7,
-    paddingBottom: 15
+    paddingBottom: 15,
   },
   cardDescription: {
-    padding: theme.SIZES.BASE / 2
+    padding: theme.SIZES.BASE / 2,
   },
   imageContainer: {
     borderRadius: 3,
@@ -142,31 +144,31 @@ const styles = StyleSheet.create({
   },
   horizontalImage: {
     height: 122,
-    width: 'auto'
+    width: 'auto',
   },
   horizontalStyles: {
     borderTopRightRadius: 0,
-    borderBottomRightRadius: 0
+    borderBottomRightRadius: 0,
   },
   verticalStyles: {
     borderBottomRightRadius: 0,
-    borderBottomLeftRadius: 0
+    borderBottomLeftRadius: 0,
   },
   fullImage: {
-    height: 215
+    height: 215,
   },
   shadow: {
     shadowColor: '#8898AA',
     shadowOffset: { width: 0, height: 1 },
     shadowRadius: 6,
     shadowOpacity: 0.1,
-    elevation: 2
+    elevation: 2,
   },
   articleButton: {
     fontFamily: 'montserrat-bold',
-    paddingHorizontal: 9,
-    paddingVertical: 7
-  }
+    paddingHorizontal: 0,
+    paddingVertical: 7,
+  },
 });
 
 export default withNavigation(Card);
