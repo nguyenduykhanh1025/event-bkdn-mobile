@@ -31,13 +31,13 @@ class Card extends React.Component {
 
     return (
       <Block row={horizontal} card flex style={cardContainer}>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('EventDetail')}>
           <Block flex style={imgContainer}>
             <Image resizeMode="cover" source={item.image} style={imageStyles} />
           </Block>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback
-          onPress={() => navigation.navigate('Pro')}
+          onPress={() => navigation.navigate('EventDetail')}
           style={styles.touchableCardDescription}
         >
           <Block flex space="between" style={styles.cardDescription}>
@@ -49,45 +49,42 @@ class Card extends React.Component {
               >
                 {item.title}
               </Text>
-              {item.subtitle ? (
-                <Block flex center>
-                  <Text
-                    style={{ fontFamily: 'montserrat-regular' }}
-                    size={32}
-                    color={nowTheme.COLORS.BLACK}
-                  >
-                    {item.subtitle}
-                  </Text>
-                </Block>
-              ) : (
+              {/* <Block flex center>
+                <Text
+                  style={{ fontFamily: 'montserrat-regular' }}
+                  size={32}
+                  color={nowTheme.COLORS.BLACK}
+                >
+                  something
+                </Text>
+              </Block> */}
+
+              {/* {item.description ? ( */}
+              {/* <Block flex center>
+                <Text
+                  style={{ fontFamily: 'montserrat-regular', textAlign: 'left', padding: 0 }}
+                  size={14}
+                  color={'#9A9A9A'}
+                >
+                  something
+                </Text>
+              </Block> */}
+              {/* ) : (
                 <Block />
-              )}
-              {item.description ? (
-                <Block flex center>
-                  <Text
-                    style={{ fontFamily: 'montserrat-regular', textAlign: 'center', padding: 15 }}
-                    size={14}
-                    color={'#9A9A9A'}
-                  >
-                    {item.description}
-                  </Text>
-                </Block>
-              ) : (
-                <Block />
-              )}
-              {item.body ? (
+              )} */}
+              {/* {item.body ? ( */}
                 <Block flex left>
                   <Text
                     style={{ fontFamily: 'montserrat-regular' }}
                     size={12}
                     color={nowTheme.COLORS.TEXT}
                   >
-                    {item.body}
+                    something
                   </Text>
                 </Block>
-              ) : (
+              {/* ) : (
                 <Block />
-              )}
+              )} */}
             </Block>
             <Block right={ctaRight ? true : false}>
               <Text

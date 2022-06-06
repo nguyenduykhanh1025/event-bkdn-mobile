@@ -19,6 +19,12 @@ const Home = ({ navigation }) => {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.articles}>
         <Block flex>
           <Card item={articles[0]} horizontal />
+          <Card item={articles[0]} horizontal />
+          <Card item={articles[0]} horizontal />
+          <Card item={articles[0]} horizontal />
+          <Card item={articles[0]} horizontal />
+          <Card item={articles[0]} horizontal />
+          <Card item={articles[0]} horizontal />
         </Block>
       </ScrollView>
     );

@@ -20,6 +20,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../screens/Login';
+import {
+  EventsInProgressAcceptScreen,
+  EventsJoinedScreen,
+  EventsParticipatingScreen,
+} from '../screens/Home/components';
+import EventDetail from '../screens/EventDetail';
 
 const { width } = Dimensions.get('screen');
 
@@ -86,7 +92,7 @@ function RegisterStack(props) {
       <Stack.Screen
         name="Register"
         component={Register}
-        options={{ headerShown: false, headerTransparent: true, }}
+        options={{ headerShown: false, headerTransparent: true }}
       />
     </Stack.Navigator>
   );
@@ -105,7 +111,26 @@ function LoginStack(props) {
       <Stack.Screen
         name="Login"
         component={Login}
-        options={{ headerShown: false, headerTransparent: true, }}
+        options={{ headerShown: false, headerTransparent: true }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function EventDetailStack(props) {
+  return (
+    <Stack.Navigator
+      // initialRouteName="Register"
+      screenOptions={{
+        mode: 'card',
+        // headerShown: 'screen',
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen
+        name="EventDetail"
+        component={EventDetail}
+        options={{ headerShown: false, headerTransparent: true }}
       />
     </Stack.Navigator>
   );
@@ -147,26 +172,35 @@ function ProfileStack(props) {
 
 function HomeStack(props) {
   return (
-    <Tab.Navigator screenOptions={({ route }) => ({
-      tabBarIcon: ({ focused, color, size }) => {
-        let iconName;
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
 
-        if (route.name === 'Đang tham gia') {
-          iconName = 'carryout'
-        } else if (route.name === 'Đã tham gia') {
-          iconName = 'clockcircleo'
-        } else {
-          iconName = 'flag'
-        }
-        return <Icon name={iconName} family="AntDesign" size={size} color={focused ? nowTheme.COLORS.PRIMARY : 'black'} />;
-      },
-      tabBarActiveTintColor: 'tomato',
-      tabBarInactiveTintColor: 'gray',
-      headerShown: false
-    })}>
-      <Tab.Screen name="Đang tham gia" component={Home} />
-      <Tab.Screen name="Đã tham gia" component={Home} />
-      <Tab.Screen name="Sắp diễn ra" component={Home} />
+          if (route.name === 'Đang tham gia') {
+            iconName = 'carryout';
+          } else if (route.name === 'Đã tham gia') {
+            iconName = 'clockcircleo';
+          } else {
+            iconName = 'flag';
+          }
+          return (
+            <Icon
+              name={iconName}
+              family="AntDesign"
+              size={size}
+              color={focused ? nowTheme.COLORS.PRIMARY : 'black'}
+            />
+          );
+        },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+        headerShown: false,
+      })}
+    >
+      <Tab.Screen name="Đang tham gia" component={EventsParticipatingScreen} />
+      <Tab.Screen name="Đã tham gia" component={EventsJoinedScreen} />
+      <Tab.Screen name="Sắp diễn ra" component={EventsInProgressAcceptScreen} />
     </Tab.Navigator>
   );
 }
@@ -231,6 +265,7 @@ function AppStack(props) {
       <Drawer.Screen name="Profile" component={ProfileStack} />
       <Drawer.Screen name="Register" component={RegisterStack} options={{ headerShown: false }} />
       <Drawer.Screen name="Login" component={LoginStack} options={{ headerShown: false }} />
+      <Drawer.Screen name="EventDetail" component={EventDetailStack} options={{ headerShown: false }} />
       {/* <Drawer.Screen name="Register" component={RegisterStack} /> */}
     </Drawer.Navigator>
   );
