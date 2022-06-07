@@ -46,5 +46,11 @@ export default axios => resource => ({
       }
     }
     return axios.get(`${resource}/paginate-event-over`, payload)
+  },
+  getEventsParticipating() {
+    return axios.get(`${resource}/get-events-participating`)
+  },
+  getEventsJoined() {
+    return axios.get(`${resource}/get-events-joined`)
   }
 })

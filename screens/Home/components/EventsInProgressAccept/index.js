@@ -1,30 +1,49 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme, Text } from 'galio-framework';
 
 import { Card, Button } from '../../../../components';
 import articles from '../../../../constants/articles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { participantEventService } from '../../../../services';
 
 const { width } = Dimensions.get('screen');
 
 const EventsInProgressAccept = ({ navigation }) => {
+  const [events, setEvents] = useState([]);
+
   useEffect(() => {
-    if (!AsyncStorage.getItem('@token')) {
-      navigation.navigate('Login');
-    }
+    getEventsFromAPI();
   }, []);
+
+  const getEventsFromAPI = async () => {
+    const PARAMS_PAGINATE_DEFAULT = {
+      page: 1,
+      limit: 10000,
+    };
+    try {
+      const res = await participantEventService.paginateEventIncoming(PARAMS_PAGINATE_DEFAULT);
+      setEvents(res.data.data.items);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // const renderCard = () => {
+  //   for(let i =0; i< events.length; ++i) {
+  //     return (
+  //       {}
+  //     )
+  //   }
+  // }
+
   const renderArticles = () => {
     return (
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.articles}>
         <Block flex>
-          <Card item={articles[0]} horizontal />
-          <Card item={articles[0]} horizontal />
-          <Card item={articles[0]} horizontal />
-          <Card item={articles[0]} horizontal />
-          <Card item={articles[0]} horizontal />
-          <Card item={articles[0]} horizontal />
-          <Card item={articles[0]} horizontal />
+          {events.map((item) => {
+            return <Card item={articles[0]} horizontal data={item} key={item.id} />;
+          })}
         </Block>
       </ScrollView>
     );

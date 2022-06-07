@@ -5,6 +5,7 @@ import { Block, theme, Text } from 'galio-framework';
 import { Card, Button } from '../../components';
 import articles from '../../constants/articles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { participantEventService } from '../../services';
 
 const { width } = Dimensions.get('screen');
 
@@ -13,7 +14,22 @@ const Home = ({ navigation }) => {
     if (!AsyncStorage.getItem('@token')) {
       navigation.navigate('Login');
     }
+    getEventsFromAPI();
   }, []);
+
+  const getEventsFromAPI = async () => {
+    const PARAMS_PAGINATE_DEFAULT = {
+      page: 1,
+      limit: 10000,
+    };
+    try {
+      const res = await participantEventService.paginateEventIncoming(PARAMS_PAGINATE_DEFAULT);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const renderArticles = () => {
     return (
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.articles}>
@@ -21,10 +37,10 @@ const Home = ({ navigation }) => {
           <Card item={articles[0]} horizontal />
           <Card item={articles[0]} horizontal />
           <Card item={articles[0]} horizontal />
+          {/* <Card item={articles[0]} horizontal />
           <Card item={articles[0]} horizontal />
           <Card item={articles[0]} horizontal />
-          <Card item={articles[0]} horizontal />
-          <Card item={articles[0]} horizontal />
+          <Card item={articles[0]} horizontal /> */}
         </Block>
       </ScrollView>
     );

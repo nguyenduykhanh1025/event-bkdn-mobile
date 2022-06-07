@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Dimensions, ScrollView, Image, ImageBackground, Platform } from 'react-native';
 import { Block, Text, theme, Button as GaButton } from 'galio-framework';
 
 import { Button } from '../../components';
 import { Images, nowTheme } from '../../constants';
 import { HeaderHeight } from '../../constants/utils';
+import { useFocusEffect } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('screen');
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
-const EventDetail = () => {
+function EventDetail({ navigation, route }) {
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log(route);
+      // console.log(navigation.getParam('itemId'));
+    }, [])
+  );
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Block
@@ -189,12 +197,12 @@ const EventDetail = () => {
       </Block>
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   profileContainer: {
     width,
-    height,
+    height: height - 300,
     padding: 0,
     zIndex: 1,
   },
