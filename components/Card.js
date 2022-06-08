@@ -3,93 +3,90 @@ import { withNavigation } from '@react-navigation/compat';
 import PropTypes from 'prop-types';
 import { StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
+import { NavigationContainer } from '@react-navigation/native';
 
 import { nowTheme } from '../constants';
 
-class Card extends React.Component {
-  render() {
-    const {
-      navigation,
-      item,
-      horizontal,
-      full,
-      style,
-      ctaColor,
-      imageStyle,
-      ctaRight,
-      titleStyle,
-      data,
-    } = this.props;
+const Card = (props) => {
+  const {
+    navigation,
+    item,
+    horizontal,
+    full,
+    style,
+    ctaColor,
+    imageStyle,
+    ctaRight,
+    titleStyle,
+    data,
+  } = props;
 
-    const imageStyles = [full ? styles.fullImage : styles.horizontalImage, imageStyle];
-    const titleStyles = [styles.cardTitle, titleStyle];
-    const cardContainer = [styles.card, styles.shadow, style];
-    const imgContainer = [
-      styles.imageContainer,
-      horizontal ? styles.horizontalStyles : styles.verticalStyles,
-      styles.shadow,
-    ];
-
-    return (
-      <Block row={horizontal} card flex style={cardContainer}>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            navigation.navigate('EventDetail', {
-              itemId: 86,
-              otherParam: 'anything you want here',
-            });
-          }}
-        >
-          <Block flex style={imgContainer}>
-            <Image resizeMode="cover" source={item.image} style={imageStyles} />
-          </Block>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            console.log('sadasdadasda11111sdasd526656');
-            navigation.navigate('EventDetail', {
-              itemId: 86,
-              otherParam: 'anything you want here',
-            });
-          }}
-          style={styles.touchableCardDescription}
-        >
-          <Block flex space="between" style={styles.cardDescription}>
-            <Block flex>
+  const imageStyles = [full ? styles.fullImage : styles.horizontalImage, imageStyle];
+  const titleStyles = [styles.cardTitle, titleStyle];
+  const cardContainer = [styles.card, styles.shadow, style];
+  const imgContainer = [
+    styles.imageContainer,
+    horizontal ? styles.horizontalStyles : styles.verticalStyles,
+    styles.shadow,
+  ];
+  return (
+    <Block row={horizontal} card flex style={cardContainer}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          navigation.navigate('EventDetail', {
+            screen: 'EventDetail',
+            params: { idEvent: data.id },
+          });
+        }}
+      >
+        <Block flex style={imgContainer}>
+          <Image resizeMode="cover" source={item.image} style={imageStyles} />
+        </Block>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          navigation.navigate('EventDetail', {
+            screen: 'EventDetail',
+            params: { idEvent: data.id },
+          });
+        }}
+        style={styles.touchableCardDescription}
+      >
+        <Block flex space="between" style={styles.cardDescription}>
+          <Block flex>
+            <Text
+              style={{ fontFamily: 'montserrat-regular', fontWeight: 'bold' }}
+              size={14}
+              color={nowTheme.COLORS.SECONDARY}
+            >
+              {data?.title}
+            </Text>
+            <Block flex left>
               <Text
-                style={{ fontFamily: 'montserrat-regular', fontWeight: 'bold' }}
-                size={14}
-                color={nowTheme.COLORS.SECONDARY}
-              >
-                {data?.title}
-              </Text>
-              <Block flex left>
-                <Text
-                  style={{ fontFamily: 'montserrat-regular' }}
-                  size={12}
-                  color={nowTheme.COLORS.TEXT}
-                >
-                  {data?.description}
-                </Text>
-              </Block>
-            </Block>
-            <Block right={ctaRight ? true : false}>
-              <Text
-                style={styles.articleButton}
+                style={{ fontFamily: 'montserrat-regular' }}
                 size={12}
-                muted={!ctaColor}
-                color={ctaColor || nowTheme.COLORS.ACTIVE}
-                bold
+                color={nowTheme.COLORS.TEXT}
               >
-                Chi Tiết
+                {data?.description}
               </Text>
             </Block>
           </Block>
-        </TouchableWithoutFeedback>
-      </Block>
-    );
-  }
-}
+          <Block right={ctaRight ? true : false}>
+            <Text
+              style={styles.articleButton}
+              size={12}
+              muted={!ctaColor}
+              color={ctaColor || nowTheme.COLORS.ACTIVE}
+              bold
+            >
+              Chi Tiết
+            </Text>
+          </Block>
+        </Block>
+      </TouchableWithoutFeedback>
+    </Block>
+  );
+};
 
 Card.propTypes = {
   item: PropTypes.object,
@@ -155,4 +152,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(Card);
+export default Card;

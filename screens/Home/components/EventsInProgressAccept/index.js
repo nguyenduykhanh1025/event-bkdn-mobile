@@ -4,7 +4,6 @@ import { Block, theme, Text } from 'galio-framework';
 
 import { Card, Button } from '../../../../components';
 import articles from '../../../../constants/articles';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { participantEventService } from '../../../../services';
 
 const { width } = Dimensions.get('screen');
@@ -14,7 +13,7 @@ const EventsInProgressAccept = ({ navigation }) => {
 
   useEffect(() => {
     getEventsFromAPI();
-  }, []);
+  }, [navigation]);
 
   const getEventsFromAPI = async () => {
     const PARAMS_PAGINATE_DEFAULT = {
@@ -29,20 +28,12 @@ const EventsInProgressAccept = ({ navigation }) => {
     }
   };
 
-  // const renderCard = () => {
-  //   for(let i =0; i< events.length; ++i) {
-  //     return (
-  //       {}
-  //     )
-  //   }
-  // }
-
   const renderArticles = () => {
     return (
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.articles}>
         <Block flex>
           {events.map((item) => {
-            return <Card item={articles[0]} horizontal data={item} key={item.id} />;
+            return <Card item={articles[0]} horizontal data={item} key={item.id} navigation={navigation}/>;
           })}
         </Block>
       </ScrollView>

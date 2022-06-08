@@ -39,6 +39,7 @@ const Login = ({ navigation }) => {
       await AsyncStorage.setItem('@token', res.data.data.access_token);
       navigation.navigate('Home');
     } catch (err) {
+      console.log(err);
     } finally {
     }
   };

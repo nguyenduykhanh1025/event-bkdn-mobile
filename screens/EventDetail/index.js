@@ -1,214 +1,280 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Dimensions, ScrollView, Image, ImageBackground, Platform } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  Image,
+  ImageBackground,
+  Platform,
+  ToastAndroid,
+} from 'react-native';
 import { Block, Text, theme, Button as GaButton } from 'galio-framework';
 
 import { Button } from '../../components';
 import { Images, nowTheme } from '../../constants';
 import { HeaderHeight } from '../../constants/utils';
 import { useFocusEffect } from '@react-navigation/native';
+import {
+  adminEventService,
+  participantEventService,
+  participantEventUserService,
+  eventUserService,
+} from '../../services';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { getEmailFromStorage } from '../../utils/user-helper';
+import Toast from 'react-native-toast-message';
 
 const { width, height } = Dimensions.get('screen');
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
 function EventDetail({ navigation, route }) {
-  useFocusEffect(
-    React.useCallback(() => {
-      console.log(route);
-      // console.log(navigation.getParam('itemId'));
-    }, [])
-  );
+  const [event, setEvent] = useState({});
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    console.log('asdasdasd');
+    getEventDetailFromAPI();
+  }, [route]);
+
+  const getEventDetailFromAPI = async () => {
+    try {
+      const res = await participantEventService.show(route.params.idEvent);
+      setEvent(res.data.data);
+      buildImagesFromStr(event.images_str);
+    } catch (err) {
+    } finally {
+    }
+  };
+
+  const buildImagesFromStr = (imageStr) => {
+    setImages(imageStr.split(','));
+    console.log(images);
+  };
+
+  const onClickJoinToEvent = async () => {
+    const email = await getEmailFromStorage();
+    const payload = {
+      email: email,
+      id_event: event.id,
+    };
+    try {
+      const res = await eventUserService.joinToEvent(payload);
+    } catch (err) {
+      const message = err.response.data.message;
+      if (message == 'exist_event_in_time') {
+        ToastAndroid.show(
+          'Bạn đã tham gia sự kiện khác trong cùng khoảng thời gian. Vui lòng hủy sự kiện.',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER
+        );
+      }
+      if (message == 'user_joined') {
+        ToastAndroid.show(
+          'Bạn đã tham gia sự kiện này.',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER
+        );
+      }
+    } finally {
+    }
+  };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <Block
-        style={{
-          flex: 1,
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Block flex={0.6}>
-          <ImageBackground
-            source={Images.ProfileBackground}
-            style={styles.profileContainer}
-            imageStyle={styles.profileBackground}
-          >
-            <Block flex style={styles.profileCard}>
-              <Block
-                style={{ position: 'absolute', width: width, zIndex: 5, paddingHorizontal: 20 }}
-              >
-                <Block middle style={{ top: height * 0.15 }}>
-                  <Image source={Images.ProfilePicture} style={styles.avatar} />
-                </Block>
-                <Block style={{ top: height * 0.2 }}>
-                  <Block middle>
-                    <Text
-                      style={{
-                        fontFamily: 'montserrat-bold',
-                        marginBottom: theme.SIZES.BASE / 2,
-                        fontWeight: '900',
-                        fontSize: 26,
-                      }}
-                      color="#ffffff"
-                    >
-                      Ryan Scheinder
-                    </Text>
+    <>
+      <Toast />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Block
+          style={{
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Block flex={0.2}>
+            <ImageBackground
+              source={Images.ProfileBackground}
+              style={styles.profileContainer}
+              imageStyle={styles.profileBackground}
+            >
+              <Block flex style={styles.profileCard}>
+                <Block
+                  style={{ position: 'absolute', width: width, zIndex: 5, paddingHorizontal: 20 }}
+                >
+                  {/* <Block middle style={{ top: height * 0.15 }}>
+                    <Image source={Images.ProfilePicture} style={styles.avatar} />
+                  </Block> */}
+                  <Block style={{ top: height * 0.2 }}>
+                    <Block middle>
+                      {/* <Text
+                        style={{
+                          fontFamily: 'montserrat-bold',
+                          marginBottom: theme.SIZES.BASE / 2,
+                          fontWeight: '900',
+                          fontSize: 26,
+                        }}
+                        color="#ffffff"
+                      >
+                        Ryan Scheinder
+                      </Text> */}
+{/* 
+                      <Text
+                        size={16}
+                        color="white"
+                        style={{
+                          marginTop: 5,
+                          fontFamily: 'montserrat-bold',
+                          lineHeight: 20,
+                          fontWeight: 'bold',
+                          fontSize: 18,
+                          opacity: 0.8,
+                        }}
+                      >
+                        Photographer
+                      </Text> */}
+                    </Block>
+                    <Block style={styles.info}>
+                      <Block row space="around">
+                        <Block middle>
+                          <Text
+                            size={18}
+                            color="white"
+                            style={{ marginBottom: 4, fontFamily: 'montserrat-bold' }}
+                          >
+                            2K
+                          </Text>
+                          <Text
+                            style={{ fontFamily: 'montserrat-regular' }}
+                            size={14}
+                            color="white"
+                          >
+                            Friends
+                          </Text>
+                        </Block>
 
-                    <Text
-                      size={16}
-                      color="white"
-                      style={{
-                        marginTop: 5,
-                        fontFamily: 'montserrat-bold',
-                        lineHeight: 20,
-                        fontWeight: 'bold',
-                        fontSize: 18,
-                        opacity: 0.8,
-                      }}
-                    >
-                      Photographer
-                    </Text>
-                  </Block>
-                  <Block style={styles.info}>
-                    <Block row space="around">
-                      <Block middle>
-                        <Text
-                          size={18}
-                          color="white"
-                          style={{ marginBottom: 4, fontFamily: 'montserrat-bold' }}
-                        >
-                          2K
-                        </Text>
-                        <Text style={{ fontFamily: 'montserrat-regular' }} size={14} color="white">
-                          Friends
-                        </Text>
-                      </Block>
+                        <Block middle>
+                          <Text
+                            color="white"
+                            size={18}
+                            style={{ marginBottom: 4, fontFamily: 'montserrat-bold' }}
+                          >
+                            26
+                          </Text>
+                          <Text
+                            style={{ fontFamily: 'montserrat-regular' }}
+                            size={14}
+                            color="white"
+                          >
+                            Comments
+                          </Text>
+                        </Block>
 
-                      <Block middle>
-                        <Text
-                          color="white"
-                          size={18}
-                          style={{ marginBottom: 4, fontFamily: 'montserrat-bold' }}
-                        >
-                          26
-                        </Text>
-                        <Text style={{ fontFamily: 'montserrat-regular' }} size={14} color="white">
-                          Comments
-                        </Text>
-                      </Block>
-
-                      <Block middle>
-                        <Text
-                          color="white"
-                          size={18}
-                          style={{ marginBottom: 4, fontFamily: 'montserrat-bold' }}
-                        >
-                          48
-                        </Text>
-                        <Text style={{ fontFamily: 'montserrat-regular' }} size={14} color="white">
-                          Bookmarks
-                        </Text>
+                        <Block middle>
+                          <Text
+                            color="white"
+                            size={18}
+                            style={{ marginBottom: 4, fontFamily: 'montserrat-bold' }}
+                          >
+                            48
+                          </Text>
+                          <Text
+                            style={{ fontFamily: 'montserrat-regular' }}
+                            size={14}
+                            color="white"
+                          >
+                            Bookmarks
+                          </Text>
+                        </Block>
                       </Block>
                     </Block>
                   </Block>
                 </Block>
-              </Block>
 
-              <Block
-                middle
-                row
-                style={{ position: 'absolute', width: width, top: height * 0.6 - 26, zIndex: 99 }}
-              >
-                <Button
-                  style={{ width: 160, height: 44, marginHorizontal: 5, elevation: 0 }}
-                  textStyle={{ fontSize: 16 }}
-                  round
+                <Block
+                  middle
+                  row
+                  style={{ position: 'absolute', width: width, top: height * 0.6 - 26, zIndex: 99 }}
                 >
-                  Yêu Cầu Tham Gia
-                </Button>
-              </Block>
-            </Block>
-          </ImageBackground>
-        </Block>
-        <Block />
-        <Block flex={0.4} style={{ padding: theme.SIZES.BASE, marginTop: 5 }}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <Block flex style={{ marginTop: 5 }}>
-              <Block middle>
-                <Text
-                  style={{
-                    color: '#2c2c2c',
-                    fontWeight: 'bold',
-                    fontSize: 19,
-                    fontFamily: 'montserrat-bold',
-                    marginTop: 5,
-                    marginBottom: 30,
-                    zIndex: 2,
-                  }}
-                >
-                  About me
-                </Text>
-                <Text
-                  size={16}
-                  muted
-                  style={{
-                    textAlign: 'center',
-                    fontFamily: 'montserrat-regular',
-                    zIndex: 2,
-                    lineHeight: 25,
-                    color: '#9A9A9A',
-                    paddingHorizontal: 15,
-                  }}
-                >
-                  An artist of considerable range, named Ryan — the name has taken by Melbourne has
-                  raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own
-                  music.
-                </Text>
-              </Block>
-              <Block row style={{ paddingVertical: 14, paddingHorizontal: 15 }} space="between">
-                <Text bold size={16} color="#2c2c2c" style={{ marginTop: 3 }}>
-                  Album
-                </Text>
-                <Button
-                  small
-                  color="transparent"
-                  textStyle={{ color: nowTheme.COLORS.PRIMARY, fontSize: 14 }}
-                >
-                  View all
-                </Button>
-              </Block>
-
-              <Block style={{ paddingBottom: -HeaderHeight * 2, paddingHorizontal: 15 }}>
-                <Block row space="between" style={{ flexWrap: 'wrap' }}>
-                  {Images.Viewed.map((img, imgIndex) => (
-                    <Image
-                      source={img}
-                      key={`viewed-${img}`}
-                      resizeMode="cover"
-                      style={styles.thumb}
-                    />
-                  ))}
+                  <TouchableOpacity onPress={onClickJoinToEvent}>
+                    <Button
+                      style={{ width: 160, height: 44, marginHorizontal: 5, elevation: 0 }}
+                      textStyle={{ fontSize: 16 }}
+                      round
+                    >
+                      Yêu Cầu Tham Gia
+                    </Button>
+                  </TouchableOpacity>
                 </Block>
               </Block>
-            </Block>
-          </ScrollView>
+            </ImageBackground>
+          </Block>
+          <Block />
+          <Block flex={0.4} style={{ padding: theme.SIZES.BASE, marginTop: 5 }}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <Block flex style={{ marginTop: 5 }}>
+                <Block middle>
+                  <Text
+                    style={{
+                      color: '#2c2c2c',
+                      fontWeight: 'bold',
+                      fontSize: 19,
+                      fontFamily: 'montserrat-bold',
+                      marginTop: 5,
+                      marginBottom: 30,
+                      zIndex: 2,
+                    }}
+                  >
+                    {event.title}
+                  </Text>
+                  <Text
+                    size={16}
+                    muted
+                    style={{
+                      textAlign: 'center',
+                      fontFamily: 'montserrat-regular',
+                      zIndex: 2,
+                      lineHeight: 25,
+                      color: '#9A9A9A',
+                      paddingHorizontal: 15,
+                    }}
+                  >
+                    {event.description}
+                  </Text>
+                </Block>
+                <Block style={{ paddingBottom: -HeaderHeight * 2, paddingHorizontal: 15 }}>
+                  <Block row space="between" style={{ flexWrap: 'wrap' }}>
+                    {/* {images.map((item, index) => {
+                      console.log('item', item);
+                      return (
+                        <Image
+                          source={item}
+                          key={`viewed-${index}`}
+                          resizeMode="cover"
+                          style={styles.thumb}
+                        />
+                      );
+                    })} */}
+                  </Block>
+                </Block>
+              </Block>
+            </ScrollView>
+          </Block>
         </Block>
-      </Block>
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   profileContainer: {
     width,
-    height: height - 300,
+    height: height - 400,
     padding: 0,
     zIndex: 1,
   },
   profileBackground: {
     width,
-    height: height * 0.6,
+    height: height * 0.2,
   },
 
   info: {
