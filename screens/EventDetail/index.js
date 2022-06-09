@@ -29,18 +29,21 @@ const { width, height } = Dimensions.get('screen');
 const thumbMeasure = (width - 48 - 32) / 3;
 
 function EventDetail({ navigation, route }) {
-  const [event, setEvent] = useState({});
+  const [event, setEvent] = useState(null);
   const [images, setImages] = useState([]);
 
-  useEffect(() => {
-    console.log('asdasdasd');
-    getEventDetailFromAPI();
-  }, [route]);
+  useFocusEffect(
+    React.useCallback(() => {
+      getEventDetailFromAPI();
+    }, [])
+  )
+
 
   const getEventDetailFromAPI = async () => {
     try {
       const res = await participantEventService.show(route.params.idEvent);
       setEvent(res.data.data);
+      console.log(event);
       buildImagesFromStr(event.images_str);
     } catch (err) {
     } finally {
@@ -49,7 +52,6 @@ function EventDetail({ navigation, route }) {
 
   const buildImagesFromStr = (imageStr) => {
     setImages(imageStr.split(','));
-    console.log(images);
   };
 
   const onClickJoinToEvent = async () => {
@@ -91,7 +93,7 @@ function EventDetail({ navigation, route }) {
             justifyContent: 'space-between',
           }}
         >
-          <Block flex={0.2}>
+          <Block flex={0.1}>
             <ImageBackground
               source={Images.ProfileBackground}
               style={styles.profileContainer}
@@ -101,37 +103,8 @@ function EventDetail({ navigation, route }) {
                 <Block
                   style={{ position: 'absolute', width: width, zIndex: 5, paddingHorizontal: 20 }}
                 >
-                  {/* <Block middle style={{ top: height * 0.15 }}>
-                    <Image source={Images.ProfilePicture} style={styles.avatar} />
-                  </Block> */}
                   <Block style={{ top: height * 0.2 }}>
                     <Block middle>
-                      {/* <Text
-                        style={{
-                          fontFamily: 'montserrat-bold',
-                          marginBottom: theme.SIZES.BASE / 2,
-                          fontWeight: '900',
-                          fontSize: 26,
-                        }}
-                        color="#ffffff"
-                      >
-                        Ryan Scheinder
-                      </Text> */}
-{/* 
-                      <Text
-                        size={16}
-                        color="white"
-                        style={{
-                          marginTop: 5,
-                          fontFamily: 'montserrat-bold',
-                          lineHeight: 20,
-                          fontWeight: 'bold',
-                          fontSize: 18,
-                          opacity: 0.8,
-                        }}
-                      >
-                        Photographer
-                      </Text> */}
                     </Block>
                     <Block style={styles.info}>
                       <Block row space="around">
@@ -189,31 +162,29 @@ function EventDetail({ navigation, route }) {
                     </Block>
                   </Block>
                 </Block>
-
-                <Block
-                  middle
-                  row
-                  style={{ position: 'absolute', width: width, top: height * 0.6 - 26, zIndex: 99 }}
-                >
-                  <TouchableOpacity onPress={onClickJoinToEvent}>
-                    <Button
-                      style={{ width: 160, height: 44, marginHorizontal: 5, elevation: 0 }}
-                      textStyle={{ fontSize: 16 }}
-                      round
-                    >
-                      Yêu Cầu Tham Gia
-                    </Button>
-                  </TouchableOpacity>
-                </Block>
               </Block>
             </ImageBackground>
           </Block>
-          <Block />
-          <Block flex={0.4} style={{ padding: theme.SIZES.BASE, marginTop: 5 }}>
+          <Block flex={0.9} style={{ padding: theme.SIZES.BASE, marginTop: 0 }}>
             <ScrollView showsVerticalScrollIndicator={false}>
-              <Block flex style={{ marginTop: 5 }}>
-                <Block middle>
-                  <Text
+              <Block flex style={{ marginTop: 0 }}>
+                <Block style={{ paddingBottom: -HeaderHeight * 2, paddingHorizontal: 15 }}>
+                  <Block row space="between" style={{ flexWrap: 'wrap' }}>
+                    {images.map((item, index) => {
+                      return (
+                        <Image
+                          source={{ uri: item }}
+                          key={`viewed-${index}`}
+                          resizeMode="cover"
+                          style={styles.thumb}
+                        />
+                      );
+                    })}
+                  </Block>
+                </Block>
+
+                <Block left>
+                  {/* <Text
                     style={{
                       color: '#2c2c2c',
                       fontWeight: 'bold',
@@ -224,7 +195,7 @@ function EventDetail({ navigation, route }) {
                       zIndex: 2,
                     }}
                   >
-                    {event.title}
+                    {event?.title}
                   </Text>
                   <Text
                     size={16}
@@ -238,24 +209,39 @@ function EventDetail({ navigation, route }) {
                       paddingHorizontal: 15,
                     }}
                   >
-                    {event.description}
-                  </Text>
+                    {event?.description}
+                  </Text> */}
                 </Block>
-                <Block style={{ paddingBottom: -HeaderHeight * 2, paddingHorizontal: 15 }}>
-                  <Block row space="between" style={{ flexWrap: 'wrap' }}>
-                    {/* {images.map((item, index) => {
-                      console.log('item', item);
-                      return (
-                        <Image
-                          source={item}
-                          key={`viewed-${index}`}
-                          resizeMode="cover"
-                          style={styles.thumb}
-                        />
-                      );
-                    })} */}
-                  </Block>
-                </Block>
+              </Block>
+              <Block
+                middle
+                row
+                style={{ marginTop: 20 }}
+              >
+                <TouchableOpacity onPress={onClickJoinToEvent}>
+                  <Button
+                    style={{ width: 160, height: 44, marginHorizontal: 20, elevation: 0 }}
+                    textStyle={{ fontSize: 16 }}
+                    round
+                  >
+                    Yêu Cầu Tham Gia
+                  </Button>
+                </TouchableOpacity>
+              </Block>
+              <Block
+                middle
+                row
+                style={{ marginTop: 5 }}
+              >
+                <TouchableOpacity onPress={onClickJoinToEvent}>
+                  <Button
+                    style={{ width: 160, height: 44, marginHorizontal: 20, elevation: 0, backgroundColor: '#fff' }}
+                    textStyle={{ fontSize: 16, color: '#f96332' }}
+                    round
+                  >
+                    Hủy Tham Gia
+                  </Button>
+                </TouchableOpacity>
               </Block>
             </ScrollView>
           </Block>
@@ -268,7 +254,7 @@ function EventDetail({ navigation, route }) {
 const styles = StyleSheet.create({
   profileContainer: {
     width,
-    height: height - 400,
+    height: height - 600,
     padding: 0,
     zIndex: 1,
   },
@@ -278,9 +264,9 @@ const styles = StyleSheet.create({
   },
 
   info: {
-    marginTop: 30,
-    paddingHorizontal: 10,
-    height: height * 0.8,
+    marginTop: -60,
+    paddingHorizontal: 0,
+    height: height * 0.1,
   },
   avatarContainer: {
     position: 'relative',

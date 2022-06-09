@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { withNavigation } from '@react-navigation/compat';
 import PropTypes from 'prop-types';
 import { StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
-import { NavigationContainer } from '@react-navigation/native';
 
 import { nowTheme } from '../constants';
 
@@ -29,6 +28,18 @@ const Card = (props) => {
     horizontal ? styles.horizontalStyles : styles.verticalStyles,
     styles.shadow,
   ];
+  const [images, setImages] = useState([''])
+
+  useEffect(() => {
+    buildImage()
+  }, [data])
+
+  const buildImage = () => {
+    if (data) {
+      setImages(data.images_str.split(','))
+    }
+  }
+
   return (
     <Block row={horizontal} card flex style={cardContainer}>
       <TouchableWithoutFeedback
@@ -40,7 +51,7 @@ const Card = (props) => {
         }}
       >
         <Block flex style={imgContainer}>
-          <Image resizeMode="cover" source={item.image} style={imageStyles} />
+          <Image resizeMode="cover" source={{ uri: images[0] }} style={imageStyles} />
         </Block>
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback

@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Dimensions, ScrollView } from 'react-native';
-import { Block, theme, Text } from 'galio-framework';
-
-import { Card, Button } from '../../../../components';
+import { useFocusEffect } from '@react-navigation/native';
+import { Block, theme } from 'galio-framework';
+import React, { useState } from 'react';
+import { Dimensions, ScrollView, StyleSheet } from 'react-native';
+import { Card } from '../../../../components';
 import articles from '../../../../constants/articles';
 import { participantEventService } from '../../../../services';
+
 
 const { width } = Dimensions.get('screen');
 
 const EventsInProgressAccept = ({ navigation }) => {
   const [events, setEvents] = useState([]);
 
-  useEffect(() => {
-    getEventsFromAPI();
-  }, [navigation]);
+  useFocusEffect(
+    React.useCallback(() => {
+      getEventsFromAPI()
+    }, [])
+  )
 
   const getEventsFromAPI = async () => {
     const PARAMS_PAGINATE_DEFAULT = {
@@ -21,10 +24,9 @@ const EventsInProgressAccept = ({ navigation }) => {
       limit: 10000,
     };
     try {
-      const res = await participantEventService.paginateEventIncoming(PARAMS_PAGINATE_DEFAULT);
-      setEvents(res.data.data.items);
+      const res = await participantEventService.getEventsInComming();
+      setEvents(res.data.data);
     } catch (err) {
-      console.log(err);
     }
   };
 
@@ -33,7 +35,7 @@ const EventsInProgressAccept = ({ navigation }) => {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.articles}>
         <Block flex>
           {events.map((item) => {
-            return <Card item={articles[0]} horizontal data={item} key={item.id} navigation={navigation}/>;
+            return <Card item={articles[0]} horizontal data={item} key={item.id} navigation={navigation} />;
           })}
         </Block>
       </ScrollView>

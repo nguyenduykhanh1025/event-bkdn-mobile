@@ -52,5 +52,8 @@ export default axios => resource => ({
   },
   getEventsJoined() {
     return axios.get(`${resource}/get-events-joined`)
+  },
+  getEventsInComming() {
+    return axios.get(`${resource}/get-events-in-comming`)
   }
 })

@@ -42,9 +42,11 @@ const Register = ({ navigation }) => {
     };
 
     try {
+      console.log('sadasdasd');
       await authService.registerParticipantAccount(payload);
       navigation.navigate('Login');
     } catch (err) {
+      console.log(err);
     } finally {
     }
   };
