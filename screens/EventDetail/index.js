@@ -23,6 +23,7 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { getEmailFromStorage } from '../../utils/user-helper';
 import Toast from 'react-native-toast-message';
+import InformationDetailOfEvent from './components/InformationDetailOfEvent';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -32,18 +33,22 @@ function EventDetail({ navigation, route }) {
   const [event, setEvent] = useState(null);
   const [images, setImages] = useState([]);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      getEventDetailFromAPI();
-    }, [])
-  )
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     // event_users_status
+  //     console.log('dasdasdasd');
+  //     console.log(route.params.event_users_status);
+  //   }, [])
+  // )
+  useEffect(() => {
+    getEventDetailFromAPI();
+  }, [route])
 
 
   const getEventDetailFromAPI = async () => {
     try {
       const res = await participantEventService.show(route.params.idEvent);
       setEvent(res.data.data);
-      console.log(event);
       buildImagesFromStr(event.images_str);
     } catch (err) {
     } finally {
@@ -60,8 +65,10 @@ function EventDetail({ navigation, route }) {
       email: email,
       id_event: event.id,
     };
+    console.log(payload);
     try {
       const res = await eventUserService.joinToEvent(payload);
+      navigation.goBack();
     } catch (err) {
       const message = err.response.data.message;
       if (message == 'exist_event_in_time') {
@@ -81,6 +88,21 @@ function EventDetail({ navigation, route }) {
     } finally {
     }
   };
+
+  const onClickRemoveToEvent = async () => {
+    try {
+      console.log(event.id);
+      const payload = {
+        "id_event": event.id
+      }
+      const res = await participantEventUserService.removeToEvent(payload);
+      navigation.goBack();
+      console.log('res', res);
+    } catch (err) {
+      console.log('err', err.response);
+    } finally {
+    }
+  }
 
   return (
     <>
@@ -121,7 +143,7 @@ function EventDetail({ navigation, route }) {
                             size={14}
                             color="white"
                           >
-                            Friends
+                            Số Lượng
                           </Text>
                         </Block>
 
@@ -138,7 +160,7 @@ function EventDetail({ navigation, route }) {
                             size={14}
                             color="white"
                           >
-                            Comments
+                            Đăng Kí
                           </Text>
                         </Block>
 
@@ -155,7 +177,7 @@ function EventDetail({ navigation, route }) {
                             size={14}
                             color="white"
                           >
-                            Bookmarks
+                            Tham Gia
                           </Text>
                         </Block>
                       </Block>
@@ -168,6 +190,16 @@ function EventDetail({ navigation, route }) {
           <Block flex={0.9} style={{ padding: theme.SIZES.BASE, marginTop: 0 }}>
             <ScrollView showsVerticalScrollIndicator={false}>
               <Block flex style={{ marginTop: 0 }}>
+                <Block left>
+                  <InformationDetailOfEvent title={'Tiêu đề'} content={event?.title} />
+                  <InformationDetailOfEvent title={'Nội dung'} content={event?.description} />
+                  <InformationDetailOfEvent title={'Địa điểm'} content={event?.address} />
+                  <InformationDetailOfEvent title={'TG.Bắt đầu'} content={event?.start_at} />
+                  <InformationDetailOfEvent title={'TG.Kết thúc'} content={event?.end_at} />
+                  <InformationDetailOfEvent title={'Đối tượng tham gia '} content={event?.description_participant} />
+                  <InformationDetailOfEvent title={'Yêu cầu '} content={event?.description_required} />
+                </Block>
+
                 <Block style={{ paddingBottom: -HeaderHeight * 2, paddingHorizontal: 15 }}>
                   <Block row space="between" style={{ flexWrap: 'wrap' }}>
                     {images.map((item, index) => {
@@ -182,67 +214,48 @@ function EventDetail({ navigation, route }) {
                     })}
                   </Block>
                 </Block>
+              </Block>
 
-                <Block left>
-                  {/* <Text
-                    style={{
-                      color: '#2c2c2c',
-                      fontWeight: 'bold',
-                      fontSize: 19,
-                      fontFamily: 'montserrat-bold',
-                      marginTop: 5,
-                      marginBottom: 30,
-                      zIndex: 2,
-                    }}
+              {
+                !route.params.event_users_status ? (
+                  <Block
+                    middle
+                    row
+                    style={{ marginTop: 20 }}
                   >
-                    {event?.title}
-                  </Text>
-                  <Text
-                    size={16}
-                    muted
-                    style={{
-                      textAlign: 'center',
-                      fontFamily: 'montserrat-regular',
-                      zIndex: 2,
-                      lineHeight: 25,
-                      color: '#9A9A9A',
-                      paddingHorizontal: 15,
-                    }}
+                    <TouchableOpacity onPress={onClickJoinToEvent}>
+                      <Button
+                        style={{ width: 160, height: 44, marginHorizontal: 20, elevation: 0 }}
+                        textStyle={{ fontSize: 16 }}
+                        round
+                      >
+                        Yêu Cầu Tham Gia
+                      </Button>
+                    </TouchableOpacity>
+                  </Block>
+                ) : null
+              }
+
+              {
+                route.params.event_users_status === 'IN_PROGRESS' ? (
+                  <Block
+                    middle
+                    row
+                    style={{ marginTop: 5 }}
                   >
-                    {event?.description}
-                  </Text> */}
-                </Block>
-              </Block>
-              <Block
-                middle
-                row
-                style={{ marginTop: 20 }}
-              >
-                <TouchableOpacity onPress={onClickJoinToEvent}>
-                  <Button
-                    style={{ width: 160, height: 44, marginHorizontal: 20, elevation: 0 }}
-                    textStyle={{ fontSize: 16 }}
-                    round
-                  >
-                    Yêu Cầu Tham Gia
-                  </Button>
-                </TouchableOpacity>
-              </Block>
-              <Block
-                middle
-                row
-                style={{ marginTop: 5 }}
-              >
-                <TouchableOpacity onPress={onClickJoinToEvent}>
-                  <Button
-                    style={{ width: 160, height: 44, marginHorizontal: 20, elevation: 0, backgroundColor: '#fff' }}
-                    textStyle={{ fontSize: 16, color: '#f96332' }}
-                    round
-                  >
-                    Hủy Tham Gia
-                  </Button>
-                </TouchableOpacity>
-              </Block>
+                    <TouchableOpacity onPress={onClickRemoveToEvent}>
+                      <Button
+                        style={{ width: 160, height: 44, marginHorizontal: 20, elevation: 0, }}
+                        textStyle={{ fontSize: 16 }}
+                        round
+                      >
+                        Hủy Tham Gia
+                      </Button>
+                    </TouchableOpacity>
+                  </Block>
+                ) : null
+              }
+
             </ScrollView>
           </Block>
         </Block>

@@ -40,6 +40,26 @@ class DrawerItem extends React.Component {
             style={{ opacity: 0.5 }}
           />
         );
+      case 'Sự Kiện Tham Gia':
+        return (
+          <Icon
+            name="event"
+            family="MaterialIcons"
+            size={18}
+            color={focused ? nowTheme.COLORS.PRIMARY : 'black'}
+            style={{ opacity: 0.5 }}
+          />
+        );
+      case 'Sự Kiện Mới':
+        return (
+          <Icon
+            name="event"
+            family="MaterialIcons"
+            size={18}
+            color={focused ? nowTheme.COLORS.PRIMARY : 'black'}
+            style={{ opacity: 0.5 }}
+          />
+        );
       case 'Tài Khoản':
         return (
           <Icon

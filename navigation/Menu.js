@@ -15,9 +15,17 @@ function CustomDrawerContent({ drawerPosition, navigation, profile, focused, sta
   // 'Components', 'Articles', 'Profile', 'Account'
   // const screens = ['Trang Chủ', 'Tin Tức', 'Sự Kiện', 'Tài Khoản', 'Thông Báo'];
   const screens = [
+    // {
+    //   'title': 'Sự Kiện',
+    //   'name': 'Home'
+    // },
     {
-      'title': 'Sự Kiện',
-      'name': 'Home'
+      'title': 'Sự Kiện Tham Gia',
+      'name': 'EventJoin'
+    },
+    {
+      'title': 'Sự Kiện Mới',
+      'name': 'EventNew'
     },
     {
       'title': 'Tin Tức',

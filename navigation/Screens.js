@@ -26,6 +26,8 @@ import {
   EventsParticipatingScreen,
 } from '../screens/Home/components';
 import EventDetail from '../screens/EventDetail';
+import EventJoin from '../screens/EventJoin';
+import EventNew from '../screens/EventNew';
 
 const { width } = Dimensions.get('screen');
 
@@ -205,28 +207,51 @@ function HomeStack(props) {
   );
 }
 
-// function RegisterStack(props) {
-//   return (
-//     <Stack.Navigator
-//       initialRouteName="Account"
-//       screenOptions={{
-//         mode: 'card',
-//         headerShown: 'screen',
-//       }}
-//     >
-//       <Stack.Screen
-//         name="Account"
-//         component={Register}
-//         options={{
-//           header: ({ navigation, scene }) => (
-//             <Header transparent title="Create Account" navigation={navigation} scene={scene} />
-//           ),
-//           headerTransparent: true,
-//         }}
-//       />
-//     </Stack.Navigator>
-//   );
-// }
+function EventJoinStack(props) {
+  return (
+    <Stack.Navigator
+      initialRouteName="EventJoin"
+      screenOptions={{
+        mode: 'card',
+        headerShown: 'screen',
+      }}
+    >
+      <Stack.Screen
+        name="EventJoin"
+        component={EventJoin}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header transparent title="Create Account" navigation={navigation} scene={scene} />
+          ),
+          headerTransparent: true,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function EventNewStack(props) {
+  return (
+    <Stack.Navigator
+      initialRouteName="EventNew"
+      screenOptions={{
+        mode: 'card',
+        headerShown: 'screen',
+      }}
+    >
+      <Stack.Screen
+        name="EventNew"
+        component={EventNew}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header transparent title="Create Account" navigation={navigation} scene={scene} />
+          ),
+          headerTransparent: true,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 function AppStack(props) {
   return (
@@ -259,9 +284,9 @@ function AppStack(props) {
       // }}
       initialRouteName="Home"
     >
-      <Drawer.Screen name="Home" component={HomeStack} options={{ title: 'Sự kiện' }} />
-      {/* <Drawer.Screen name="Components" component={ComponentsStack} /> */}
-      {/* <Drawer.Screen name="Articles" component={ArticlesStack} /> */}
+      {/* <Drawer.Screen name="Home" component={HomeStack} options={{ title: 'Sự kiện' }} /> */}
+      <Drawer.Screen name="EventJoin" component={EventJoinStack} options={{ title: 'Sự Kiện Tham Gia' }} />
+      <Drawer.Screen name="EventNew" component={EventNewStack} options={{ title: 'Sự Kiện Mới' }} />
       <Drawer.Screen name="Profile" component={ProfileStack} />
       <Drawer.Screen name="Register" component={RegisterStack} options={{ headerShown: false }} />
       <Drawer.Screen name="Login" component={LoginStack} options={{ headerShown: false }} />

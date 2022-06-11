@@ -5,6 +5,7 @@ import { StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
 
 import { nowTheme } from '../constants';
+import EVENT_USER_STATUS from '../constants/event-users-status';
 
 const Card = (props) => {
   const {
@@ -32,11 +33,24 @@ const Card = (props) => {
 
   useEffect(() => {
     buildImage()
+    console.log(data);
   }, [data])
 
   const buildImage = () => {
     if (data) {
       setImages(data.images_str.split(','))
+    }
+  }
+
+  const renderEventStatus = () => {
+    if (data.event_users_status == EVENT_USER_STATUS.IN_PROGRESS) {
+      return 'Đang yêu cầu'
+    } else if (data.event_users_status == EVENT_USER_STATUS.REJECTED) {
+      return 'Đã từ chối'
+    } else if (data.event_users_status == EVENT_USER_STATUS.ACCEPTED) {
+      return 'Đã tham gia'
+    } else {
+      return 'Chưa tham gia'
     }
   }
 
@@ -46,7 +60,7 @@ const Card = (props) => {
         onPress={() => {
           navigation.navigate('EventDetail', {
             screen: 'EventDetail',
-            params: { idEvent: data.id },
+            params: { idEvent: data.id, event_users_status: data.event_users_status },
           });
         }}
       >
@@ -58,7 +72,7 @@ const Card = (props) => {
         onPress={() => {
           navigation.navigate('EventDetail', {
             screen: 'EventDetail',
-            params: { idEvent: data.id },
+            params: { idEvent: data.id, event_users_status: data.event_users_status },
           });
         }}
         style={styles.touchableCardDescription}
@@ -90,7 +104,7 @@ const Card = (props) => {
               color={ctaColor || nowTheme.COLORS.ACTIVE}
               bold
             >
-              Chi Tiết
+              {renderEventStatus()}
             </Text>
           </Block>
         </Block>
