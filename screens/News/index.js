@@ -2,14 +2,15 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Block, theme } from 'galio-framework';
 import React, { useState } from 'react';
 import { Dimensions, ScrollView, StyleSheet } from 'react-native';
-import { Card } from '../../components';
+import CardNews from './components/Card'
+
 import articles from '../../constants/articles';
-import { participantEventService } from '../../services';
+import { participantEventService, participantJournalService } from '../../services';
 
 
 const { width } = Dimensions.get('screen');
 
-const EventsInProgressAccept = ({ navigation }) => {
+const News = ({ navigation }) => {
   const [events, setEvents] = useState([]);
 
   useFocusEffect(
@@ -19,15 +20,14 @@ const EventsInProgressAccept = ({ navigation }) => {
   )
 
   const getEventsFromAPI = async () => {
-    console.log('asdasdasdasd');
-    const PARAMS_PAGINATE_DEFAULT = {
-      page: 1,
-      limit: 10000,
-    };
+    const params = {
+      limit: 1000,
+    }
+
     try {
-      const res = await participantEventService.getEventsNewNotExistUser();
+      const res = await participantJournalService.paginate(params);
       console.log('res', res);
-      setEvents(res.data.data);
+      setEvents(res.data.data.items);
     } catch (err) {
     }
   };
@@ -37,7 +37,7 @@ const EventsInProgressAccept = ({ navigation }) => {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.articles}>
         <Block flex>
           {events.map((item) => {
-            return <Card item={articles[0]} horizontal data={item} key={item.id} navigation={navigation} />;
+            return <CardNews item={articles[0]} horizontal data={item} key={item.id} navigation={navigation} />;
           })}
         </Block>
       </ScrollView>
@@ -63,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EventsInProgressAccept;
+export default News;

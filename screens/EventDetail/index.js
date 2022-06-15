@@ -221,11 +221,11 @@ function EventDetail({ navigation, route }) {
                   <Block
                     middle
                     row
-                    style={{ marginTop: 20 }}
+                    style={{ marginTop: 50 }}
                   >
                     <TouchableOpacity onPress={onClickJoinToEvent}>
                       <Button
-                        style={{ width: 160, height: 44, marginHorizontal: 20, elevation: 0 }}
+                        style={{ width: 300, height: 44, marginHorizontal: 20, elevation: 0 }}
                         textStyle={{ fontSize: 16 }}
                         round
                       >
@@ -241,11 +241,11 @@ function EventDetail({ navigation, route }) {
                   <Block
                     middle
                     row
-                    style={{ marginTop: 5 }}
+                    style={{ marginTop: 50 }}
                   >
                     <TouchableOpacity onPress={onClickRemoveToEvent}>
                       <Button
-                        style={{ width: 160, height: 44, marginHorizontal: 20, elevation: 0, }}
+                        style={{ width: 300, height: 44, marginHorizontal: 20, elevation: 0, }}
                         textStyle={{ fontSize: 16 }}
                         round
                       >

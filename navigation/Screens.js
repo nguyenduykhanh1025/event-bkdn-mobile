@@ -28,6 +28,7 @@ import {
 import EventDetail from '../screens/EventDetail';
 import EventJoin from '../screens/EventJoin';
 import EventNew from '../screens/EventNew';
+import News from '../screens/News';
 
 const { width } = Dimensions.get('screen');
 
@@ -253,6 +254,29 @@ function EventNewStack(props) {
   );
 }
 
+function NewsStack(props) {
+  return (
+    <Stack.Navigator
+      initialRouteName="News"
+      screenOptions={{
+        mode: 'card',
+        headerShown: 'screen',
+      }}
+    >
+      <Stack.Screen
+        name="News"
+        component={News}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header transparent title="Create Account" navigation={navigation} scene={scene} />
+          ),
+          headerTransparent: true,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function AppStack(props) {
   return (
     <Drawer.Navigator
@@ -287,6 +311,8 @@ function AppStack(props) {
       {/* <Drawer.Screen name="Home" component={HomeStack} options={{ title: 'Sự kiện' }} /> */}
       <Drawer.Screen name="EventJoin" component={EventJoinStack} options={{ title: 'Sự Kiện Tham Gia' }} />
       <Drawer.Screen name="EventNew" component={EventNewStack} options={{ title: 'Sự Kiện Mới' }} />
+      <Drawer.Screen name="News" component={NewsStack} options={{ title: 'Tin Tức' }} />
+
       <Drawer.Screen name="Profile" component={ProfileStack} />
       <Drawer.Screen name="Register" component={RegisterStack} options={{ headerShown: false }} />
       <Drawer.Screen name="Login" component={LoginStack} options={{ headerShown: false }} />
