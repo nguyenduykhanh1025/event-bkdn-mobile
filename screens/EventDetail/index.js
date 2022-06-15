@@ -136,7 +136,7 @@ function EventDetail({ navigation, route }) {
                             color="white"
                             style={{ marginBottom: 4, fontFamily: 'montserrat-bold' }}
                           >
-                            2K
+                            {event?.count_need_participate}
                           </Text>
                           <Text
                             style={{ fontFamily: 'montserrat-regular' }}
@@ -153,7 +153,8 @@ function EventDetail({ navigation, route }) {
                             size={18}
                             style={{ marginBottom: 4, fontFamily: 'montserrat-bold' }}
                           >
-                            26
+                            {event?.count_registered}
+
                           </Text>
                           <Text
                             style={{ fontFamily: 'montserrat-regular' }}
@@ -170,7 +171,7 @@ function EventDetail({ navigation, route }) {
                             size={18}
                             style={{ marginBottom: 4, fontFamily: 'montserrat-bold' }}
                           >
-                            48
+                            {event?.count_participated}
                           </Text>
                           <Text
                             style={{ fontFamily: 'montserrat-regular' }}

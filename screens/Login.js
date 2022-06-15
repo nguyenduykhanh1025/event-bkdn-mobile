@@ -37,7 +37,7 @@ const Login = ({ navigation }) => {
     try {
       const res = await authService.login(payload);
       await AsyncStorage.setItem('@token', res.data.data.access_token);
-      navigation.navigate('Home');
+      navigation.navigate('EventJoin');
     } catch (err) {
       console.log(err.response);
     } finally {
