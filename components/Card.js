@@ -84,7 +84,7 @@ const Card = (props) => {
               size={14}
               color={nowTheme.COLORS.SECONDARY}
             >
-              {data?.title}
+              {data?.title.substring(0, 15)}...
             </Text>
             <Block flex left>
               <Text
@@ -92,7 +92,7 @@ const Card = (props) => {
                 size={12}
                 color={nowTheme.COLORS.TEXT}
               >
-                {data?.description}
+                {data?.description.substring(0, 50)}...
               </Text>
             </Block>
           </Block>

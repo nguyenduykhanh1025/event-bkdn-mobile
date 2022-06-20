@@ -29,6 +29,7 @@ import EventDetail from '../screens/EventDetail';
 import EventJoin from '../screens/EventJoin';
 import EventNew from '../screens/EventNew';
 import News from '../screens/News';
+import NewsDetail from '../screens/NewsDetail';
 
 const { width } = Dimensions.get('screen');
 
@@ -133,6 +134,25 @@ function EventDetailStack(props) {
       <Stack.Screen
         name="EventDetail"
         component={EventDetail}
+        options={{ headerShown: false, headerTransparent: true }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function NewsDetailStack(props) {
+  return (
+    <Stack.Navigator
+      // initialRouteName="Register"
+      screenOptions={{
+        mode: 'card',
+        // headerShown: 'screen',
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen
+        name="NewsDetail"
+        component={NewsDetail}
         options={{ headerShown: false, headerTransparent: true }}
       />
     </Stack.Navigator>
@@ -317,6 +337,7 @@ function AppStack(props) {
       <Drawer.Screen name="Register" component={RegisterStack} options={{ headerShown: false }} />
       <Drawer.Screen name="Login" component={LoginStack} options={{ headerShown: false }} />
       <Drawer.Screen name="EventDetail" component={EventDetailStack} options={{ headerShown: false }} />
+      <Drawer.Screen name="NewsDetail" component={NewsDetailStack} options={{ headerShown: false }} />
       {/* <Drawer.Screen name="Register" component={RegisterStack} /> */}
     </Drawer.Navigator>
   );

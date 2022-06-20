@@ -7,6 +7,7 @@ import {
   ImageBackground,
   Platform,
   ToastAndroid,
+  View,
 } from 'react-native';
 import { Block, Text, theme, Button as GaButton } from 'galio-framework';
 
@@ -192,8 +193,9 @@ function EventDetail({ navigation, route }) {
             <ScrollView showsVerticalScrollIndicator={false}>
               <Block flex style={{ marginTop: 0 }}>
                 <Block left>
-                  <InformationDetailOfEvent title={'Tiêu đề'} content={event?.title} />
-                  <InformationDetailOfEvent title={'Nội dung'} content={event?.description} />
+                  <InformationDetailOfEvent title={''} content={event?.title} isTitleMain={true} />
+                  <InformationDetailOfEvent title={''} content={event?.description} idDescription={true} />
+                  <View style={{ backgroundColor: nowTheme.COLORS.PRIMARY, width: width, height: 2, marginTop: 10 }} />
                   <InformationDetailOfEvent title={'Địa điểm'} content={event?.address} />
                   <InformationDetailOfEvent title={'TG.Bắt đầu'} content={event?.start_at} />
                   <InformationDetailOfEvent title={'TG.Kết thúc'} content={event?.end_at} />
@@ -201,7 +203,7 @@ function EventDetail({ navigation, route }) {
                   <InformationDetailOfEvent title={'Yêu cầu '} content={event?.description_required} />
                 </Block>
 
-                <Block style={{ paddingBottom: -HeaderHeight * 2, paddingHorizontal: 15 }}>
+                <Block style={{ paddingBottom: -HeaderHeight * 2, paddingHorizontal: 15, marginTop: 15 }}>
                   <Block row space="between" style={{ flexWrap: 'wrap' }}>
                     {images.map((item, index) => {
                       return (

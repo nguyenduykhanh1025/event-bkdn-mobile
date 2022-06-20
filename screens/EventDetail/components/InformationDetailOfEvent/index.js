@@ -7,6 +7,7 @@ import {
   ImageBackground,
   Platform,
   ToastAndroid,
+  View,
 } from 'react-native';
 import { Block, Text, theme, Button as GaButton } from 'galio-framework';
 
@@ -17,30 +18,36 @@ const { width, height } = Dimensions.get('screen');
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
-function InformationDetailOfEvent({ title, content }) {
+function InformationDetailOfEvent({ title, content, isTitleMain, idDescription }) {
   return (
     <>
-      <Block row space="around">
-        <Text
-          size={16}
-          color="white"
-          style={{
-            color: '#2c2c2c',
-            fontSize: 14,
-            fontFamily: 'montserrat-bold',
-            marginRight: 10,
-            marginTop: 10
-          }}
-        >
-          {title}:
-        </Text>
+      <Block row space="between">
+        {
+          title ? <Text
+            size={16}
+            color="white"
+            style={{
+              color: '#2c2c2c',
+              fontSize: 14,
+              fontFamily: 'montserrat-bold',
+              // marginRight: 10,
+              marginTop: 10,
+              flex: 1
+            }}
+          >
+            {/* 9A9A9A */}
+            {title}:
+          </Text> : null
+        }
+
         <Text
           style={{
             fontWeight: 'bold',/*  */
-            color: '#9A9A9A',
-            fontSize: 19,
+            color: isTitleMain ? nowTheme.COLORS.PRIMARY : '#2c2c2c',
+            fontSize: idDescription ? 16 : 19,
             fontFamily: 'montserrat-bold',
-            marginTop: 10
+            marginTop: 10,
+            flex: 3
           }}
           size={14}
           color="white"

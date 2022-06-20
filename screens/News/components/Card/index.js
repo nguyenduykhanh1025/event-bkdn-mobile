@@ -7,7 +7,7 @@ import { Block, Text, theme } from 'galio-framework';
 import { nowTheme } from '../../../../constants';
 import EVENT_USER_STATUS from '../../../../constants/event-users-status';
 
-const Card= (props) => {
+const Card = (props) => {
   const {
     navigation,
     item,
@@ -58,9 +58,9 @@ const Card= (props) => {
     <Block row={horizontal} card flex style={cardContainer}>
       <TouchableWithoutFeedback
         onPress={() => {
-          navigation.navigate('EventDetail', {
-            screen: 'EventDetail',
-            params: { idEvent: data.id, event_users_status: data.event_users_status },
+          navigation.navigate('NewsDetail', {
+            screen: 'NewsDetail',
+            params: { idNews: data.id },
           });
         }}
       >
@@ -70,9 +70,9 @@ const Card= (props) => {
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback
         onPress={() => {
-          navigation.navigate('EventDetail', {
-            screen: 'EventDetail',
-            params: { idEvent: data.id, event_users_status: data.event_users_status },
+          navigation.navigate('NewsDetail', {
+            screen: 'NewsDetail',
+            params: { idNews: data.id },
           });
         }}
         style={styles.touchableCardDescription}
@@ -84,7 +84,7 @@ const Card= (props) => {
               size={14}
               color={nowTheme.COLORS.SECONDARY}
             >
-              {data?.title}
+              {data?.title.substring(0, 15)}...
             </Text>
             <Block flex left>
               <Text
@@ -92,7 +92,7 @@ const Card= (props) => {
                 size={12}
                 color={nowTheme.COLORS.TEXT}
               >
-                {data?.description}
+                {data?.description.substring(0, 130)}...
               </Text>
             </Block>
           </Block>
