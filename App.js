@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
@@ -8,6 +8,16 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import Screens from './navigation/Screens';
 import { Images, articles, nowTheme } from './constants';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 // cache app images
 const assetImages = [
@@ -21,78 +31,84 @@ const assetImages = [
   Images.CreativeTimLogo,
   Images.InvisionLogo,
   Images.RegisterBackground,
-  Images.ProfileBackground
+  Images.ProfileBackground,
 ];
 
-// cache product images
-articles.map(article => assetImages.push(article.image));
+export default function App() {
+  const [isLoadingComplete, setIsLoadingComplete] = useState(false);
+  const [fontLoaded, setFontLoaded] = useState(false);
 
-function cacheImages(images) {
-  return images.map(image => {
-    if (typeof image === 'string') {
-      return Image.prefetch(image);
-    } else {
-      return Asset.fromModule(image).downloadAsync();
-    }
-  });
-}
+  useEffect(() => {
+    registerForPushNotification().then((token) => console.log(token));
+    // notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+    //   console.log(notification);
+    // });
+    // responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+    //   console.log(response);
+    // });
+    // return () => {
+    //   cleanup
+    // }
+  }, []);
 
-export default class App extends React.Component {
-  state = {
-    isLoadingComplete: false,
-    fontLoaded: false
+  const cacheImages = (images) => {
+    return images.map((image) => {
+      if (typeof image === 'string') {
+        return Image.prefetch(image);
+      } else {
+        return Asset.fromModule(image).downloadAsync();
+      }
+    });
   };
-
-  // async componentDidMount() {
-  //   Font.loadAsync({
-  //     'montserrat-regular': require('./assets/font/Montserrat-Regular.ttf'),
-  //     'montserrat-bold': require('./assets/font/Montserrat-Bold.ttf')
-  //   });
-
-  //   this.setState({ fontLoaded: true });
-  // }
-
-  render() {
-    if (!this.state.isLoadingComplete) {
-      return (
-        <AppLoading
-          startAsync={this._loadResourcesAsync}
-          onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
-        />
-      );
-    } else {
-      return (
-        <NavigationContainer>
-          <GalioProvider theme={nowTheme}>
-            <Block flex>
-              <Screens />
-            </Block>
-          </GalioProvider>
-        </NavigationContainer>
-      );
-    }
-  }
-
-  _loadResourcesAsync = async () => {
+  const _loadResourcesAsync = async () => {
     await Font.loadAsync({
       'montserrat-regular': require('./assets/font/Montserrat-Regular.ttf'),
-      'montserrat-bold': require('./assets/font/Montserrat-Bold.ttf')
+      'montserrat-bold': require('./assets/font/Montserrat-Bold.ttf'),
     });
 
-    this.setState({ fontLoaded: true });
+    setFontLoaded(true);
     return Promise.all([...cacheImages(assetImages)]);
   };
 
-  _handleLoadingError = error => {
-    // In this case, you might want to report the error to your error
-    // reporting service, for example Sentry
+  const _handleLoadingError = (error) => {
     console.warn(error);
   };
 
-  _handleFinishLoading = () => {
-    if (this.state.fontLoaded) {
-      this.setState({ isLoadingComplete: true });
+  const _handleFinishLoading = () => {
+    if (fontLoaded) {
+      setIsLoadingComplete(true);
     }
   };
+
+  async function registerForPushNotification() {
+    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    if (status != 'granted') {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      // finalStatus = status;
+    }
+    if (status !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    return token;
+  }
+
+  return (
+    <NavigationContainer>
+      {isLoadingComplete ? (
+        <AppLoading
+          startAsync={_loadResourcesAsync}
+          onError={_handleLoadingError}
+          onFinish={_handleFinishLoading}
+        />
+      ) : (
+        <GalioProvider theme={nowTheme}>
+          <Block flex>
+            <Screens />
+          </Block>
+        </GalioProvider>
+      )}
+    </NavigationContainer>
+  );
 }

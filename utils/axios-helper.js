@@ -6,7 +6,7 @@ import * as React from 'react';
 export const navigationRef = React.createRef();
 
 const axiosClient = axios.create({
-  baseURL: 'http://192.168.1.122:8088/api',
+  baseURL: 'http://localhost:8088/api',
   headers: {
     'content-type': 'application/json',
   },

@@ -3,10 +3,7 @@
     "name": "Now UI React Native",
     "slug": "now-ui-react-native",
     "privacy": "public",
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": ["ios", "android"],
     "version": "1.4.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,11 +15,12 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "useNextNotificationsApi": true
     },
     "description": "Now UI React Native, based on Now UI Design System. Coded by Creative Tim"
   }

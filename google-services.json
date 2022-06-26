@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "590132560324",
+    "project_id": "notification-bkdn",
+    "storage_bucket": "notification-bkdn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590132560324:android:3e2e8b2a8da0d6becd2491",
+        "android_client_info": {
+          "package_name": "com.kunlez.eventbkdn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "590132560324-19b0t0csfm9m9ssaj70knhqj8rglqaui.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8C8ODA7kaW1iGItOrttX1tZbSaVYeNyI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "590132560324-19b0t0csfm9m9ssaj70knhqj8rglqaui.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
