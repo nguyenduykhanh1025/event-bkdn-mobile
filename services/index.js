@@ -17,7 +17,7 @@ const adminUserService = UserService(axiosClient)('/admin/users');
 const participantEventService = EventService(axiosClient)('/participant/events');
 const participantEventUserService = EventUserService(axiosClient)('/participant/event-users');
 const participantJournalService = JournalService(axiosClient)('/participant/journals');
-
+const participantUserService = UserService(axiosClient)('/participant/users');
 
 export {
   authService,
@@ -28,5 +28,6 @@ export {
   eventUserService,
   participantEventService,
   participantEventUserService,
-  participantJournalService
+  participantJournalService,
+  participantUserService
 };

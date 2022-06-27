@@ -6,7 +6,6 @@ import { Card } from '../../components';
 import articles from '../../constants/articles';
 import { participantEventService } from '../../services';
 
-
 const { width } = Dimensions.get('screen');
 
 const EventsInProgressAccept = ({ navigation }) => {
@@ -14,9 +13,9 @@ const EventsInProgressAccept = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      getEventsFromAPI()
+      getEventsFromAPI();
     }, [])
-  )
+  );
 
   const getEventsFromAPI = async () => {
     const PARAMS_PAGINATE_DEFAULT = {
@@ -26,17 +25,26 @@ const EventsInProgressAccept = ({ navigation }) => {
     try {
       const res = await participantEventService.getEventsJoin();
       setEvents(res.data.data);
-    } catch (err) {
-    }
+    } catch (err) {}
   };
 
   const renderArticles = () => {
     return (
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.articles}>
         <Block flex>
-          {events.map((item) => {
-            return <Card item={articles[0]} horizontal data={item} key={item.id} navigation={navigation} />;
-          })}
+          {typeof events !== 'undefined'
+            ? events.map((item) => {
+                return (
+                  <Card
+                    item={articles[0]}
+                    horizontal
+                    data={item}
+                    key={item.id}
+                    navigation={navigation}
+                  />
+                );
+              })
+            : null}
         </Block>
       </ScrollView>
     );

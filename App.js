@@ -10,6 +10,7 @@ import Screens from './navigation/Screens';
 import { Images, articles, nowTheme } from './constants';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
+import { participantUserService } from './services';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -39,17 +40,24 @@ export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
 
   useEffect(() => {
-    registerForPushNotification().then((token) => console.log(token));
-    // notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-    //   console.log(notification);
-    // });
-    // responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-    //   console.log(response);
-    // });
-    // return () => {
-    //   cleanup
-    // }
+    updateExponentPushToken();
   }, []);
+
+  const updateExponentPushToken = () => {
+    registerForPushNotification().then(async (token) => {
+      console.log('token', token);
+      if (token) {
+        try {
+          const payload = {
+            exponent_push_token: token,
+          };
+          await participantUserService.updateExponentPushToken(payload);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    });
+  };
 
   const cacheImages = (images) => {
     return images.map((image) => {

@@ -39,10 +39,10 @@ function CustomDrawerContent({ drawerPosition, navigation, profile, focused, sta
       'title': 'Tài Khoản',
       'name': 'Profile'
     },
-    {
-      'title': 'Thông Báo',
-      'name': 'Notifies'
-    },
+    // {
+    //   'title': 'Thông Báo',
+    //   'name': 'Notifies'
+    // },
     // {
     //   'title': 'QR Code',
     //   'name': 'Register'

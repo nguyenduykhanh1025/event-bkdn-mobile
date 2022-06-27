@@ -1,6 +1,6 @@
-import baseService from './base-service'
+import baseService from './base-service';
 
-export default axios => resource => ({
+export default (axios) => (resource) => ({
   ...baseService(axios, resource),
   paginateParticipant(params) {
     const payload = {
@@ -12,9 +12,12 @@ export default axios => resource => ({
         search_data: '',
         filter_column: '',
         filter_data: '',
-        ...params
-      }
-    }
-    return axios.get(`${resource}/paginate-participant`, payload)
-  }
-})
+        ...params,
+      },
+    };
+    return axios.get(`${resource}/paginate-participant`, payload);
+  },
+  updateExponentPushToken(payload) {
+    return axios.put(`${resource}/update-exponent-push-token`, payload);
+  },
+});
