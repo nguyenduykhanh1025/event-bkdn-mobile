@@ -41,6 +41,7 @@ export default function App() {
 
   useEffect(() => {
     updateExponentPushToken();
+    _loadResourcesAsync();
   }, []);
 
   const updateExponentPushToken = () => {
@@ -71,7 +72,7 @@ export default function App() {
   const _loadResourcesAsync = async () => {
     await Font.loadAsync({
       'montserrat-regular': require('./assets/font/Montserrat-Regular.ttf'),
-      'montserrat-bold': require('./assets/font/Montserrat-Bold.ttf'),
+      'montserrat-bold': require('./assets/font/Montserrat-Bold.otf'),
     });
 
     setFontLoaded(true);

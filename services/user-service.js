@@ -20,4 +20,7 @@ export default (axios) => (resource) => ({
   updateExponentPushToken(payload) {
     return axios.put(`${resource}/update-exponent-push-token`, payload);
   },
+  getProfile() {
+    return axios.get(`${resource}/get-profile`);
+  },
 });

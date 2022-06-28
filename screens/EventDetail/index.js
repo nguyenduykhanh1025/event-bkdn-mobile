@@ -43,8 +43,7 @@ function EventDetail({ navigation, route }) {
   // )
   useEffect(() => {
     getEventDetailFromAPI();
-  }, [route])
-
+  }, [route]);
 
   const getEventDetailFromAPI = async () => {
     try {
@@ -66,25 +65,19 @@ function EventDetail({ navigation, route }) {
       email: email,
       id_event: event.id,
     };
-    console.log(payload);
     try {
       const res = await eventUserService.joinToEvent(payload);
       navigation.goBack();
     } catch (err) {
       const message = err.response.data.message;
       if (message == 'exist_event_in_time') {
-        ToastAndroid.show(
-          'Bạn đã tham gia sự kiện khác trong cùng khoảng thời gian. Vui lòng hủy sự kiện.',
-          ToastAndroid.SHORT,
-          ToastAndroid.CENTER
+        alert(
+          'Bạn đã tham gia sự kiện khác trong cùng khoảng thời gian. Vui lòng hủy sự kiện trước.'
         );
       }
       if (message == 'user_joined') {
-        ToastAndroid.show(
-          'Bạn đã tham gia sự kiện này.',
-          ToastAndroid.SHORT,
-          ToastAndroid.CENTER
-        );
+        // ToastAndroid.show('Bạn đã tham gia sự kiện này.', ToastAndroid.SHORT, ToastAndroid.CENTER);
+        alert('Bạn đã tham gia sự kiện này.');
       }
     } finally {
     }
@@ -94,8 +87,8 @@ function EventDetail({ navigation, route }) {
     try {
       console.log(event.id);
       const payload = {
-        "id_event": event.id
-      }
+        id_event: event.id,
+      };
       const res = await participantEventUserService.removeToEvent(payload);
       navigation.goBack();
       console.log('res', res);
@@ -103,7 +96,7 @@ function EventDetail({ navigation, route }) {
       console.log('err', err.response);
     } finally {
     }
-  }
+  };
 
   return (
     <>
@@ -127,8 +120,7 @@ function EventDetail({ navigation, route }) {
                   style={{ position: 'absolute', width: width, zIndex: 5, paddingHorizontal: 20 }}
                 >
                   <Block style={{ top: height * 0.2 }}>
-                    <Block middle>
-                    </Block>
+                    <Block middle></Block>
                     <Block style={styles.info}>
                       <Block row space="around">
                         <Block middle>
@@ -155,7 +147,6 @@ function EventDetail({ navigation, route }) {
                             style={{ marginBottom: 4, fontFamily: 'montserrat-bold' }}
                           >
                             {event?.count_registered}
-
                           </Text>
                           <Text
                             style={{ fontFamily: 'montserrat-regular' }}
@@ -194,16 +185,35 @@ function EventDetail({ navigation, route }) {
               <Block flex style={{ marginTop: 0 }}>
                 <Block left>
                   <InformationDetailOfEvent title={''} content={event?.title} isTitleMain={true} />
-                  <InformationDetailOfEvent title={''} content={event?.description} idDescription={true} />
-                  <View style={{ backgroundColor: nowTheme.COLORS.PRIMARY, width: width, height: 2, marginTop: 10 }} />
+                  <InformationDetailOfEvent
+                    title={''}
+                    content={event?.description}
+                    idDescription={true}
+                  />
+                  <View
+                    style={{
+                      backgroundColor: nowTheme.COLORS.PRIMARY,
+                      width: width,
+                      height: 2,
+                      marginTop: 10,
+                    }}
+                  />
                   <InformationDetailOfEvent title={'Địa điểm'} content={event?.address} />
                   <InformationDetailOfEvent title={'TG.Bắt đầu'} content={event?.start_at} />
                   <InformationDetailOfEvent title={'TG.Kết thúc'} content={event?.end_at} />
-                  <InformationDetailOfEvent title={'Đối tượng tham gia '} content={event?.description_participant} />
-                  <InformationDetailOfEvent title={'Yêu cầu '} content={event?.description_required} />
+                  <InformationDetailOfEvent
+                    title={'Đối tượng tham gia '}
+                    content={event?.description_participant}
+                  />
+                  <InformationDetailOfEvent
+                    title={'Yêu cầu '}
+                    content={event?.description_required}
+                  />
                 </Block>
 
-                <Block style={{ paddingBottom: -HeaderHeight * 2, paddingHorizontal: 15, marginTop: 15 }}>
+                <Block
+                  style={{ paddingBottom: -HeaderHeight * 2, paddingHorizontal: 15, marginTop: 15 }}
+                >
                   <Block row space="between" style={{ flexWrap: 'wrap' }}>
                     {images.map((item, index) => {
                       return (
@@ -219,46 +229,33 @@ function EventDetail({ navigation, route }) {
                 </Block>
               </Block>
 
-              {
-                !route.params.event_users_status ? (
-                  <Block
-                    middle
-                    row
-                    style={{ marginTop: 50 }}
-                  >
-                    <TouchableOpacity onPress={onClickJoinToEvent}>
-                      <Button
-                        style={{ width: 300, height: 44, marginHorizontal: 20, elevation: 0 }}
-                        textStyle={{ fontSize: 16 }}
-                        round
-                      >
-                        Yêu Cầu Tham Gia
-                      </Button>
-                    </TouchableOpacity>
-                  </Block>
-                ) : null
-              }
+              {!route.params.event_users_status ? (
+                <Block middle row style={{ marginTop: 50 }}>
+                  <TouchableOpacity onPress={onClickJoinToEvent}>
+                    <Button
+                      style={{ width: 300, height: 44, marginHorizontal: 20, elevation: 0 }}
+                      textStyle={{ fontSize: 16 }}
+                      round
+                    >
+                      Yêu Cầu Tham Gia
+                    </Button>
+                  </TouchableOpacity>
+                </Block>
+              ) : null}
 
-              {
-                route.params.event_users_status === 'IN_PROGRESS' ? (
-                  <Block
-                    middle
-                    row
-                    style={{ marginTop: 50 }}
-                  >
-                    <TouchableOpacity onPress={onClickRemoveToEvent}>
-                      <Button
-                        style={{ width: 300, height: 44, marginHorizontal: 20, elevation: 0, }}
-                        textStyle={{ fontSize: 16 }}
-                        round
-                      >
-                        Hủy Tham Gia
-                      </Button>
-                    </TouchableOpacity>
-                  </Block>
-                ) : null
-              }
-
+              {route.params.event_users_status === 'IN_PROGRESS' ? (
+                <Block middle row style={{ marginTop: 50 }}>
+                  <TouchableOpacity onPress={onClickRemoveToEvent}>
+                    <Button
+                      style={{ width: 300, height: 44, marginHorizontal: 20, elevation: 0 }}
+                      textStyle={{ fontSize: 16 }}
+                      round
+                    >
+                      Hủy Tham Gia
+                    </Button>
+                  </TouchableOpacity>
+                </Block>
+              ) : null}
             </ScrollView>
           </Block>
         </Block>
