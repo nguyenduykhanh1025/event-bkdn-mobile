@@ -20,7 +20,9 @@
       "supportsTablet": true
     },
     "android": {
-      "useNextNotificationsApi": true
+      "useNextNotificationsApi": true,
+      "package": "com.kunlez.event",
+      "versionCode": 1
     },
     "description": "Now UI React Native, based on Now UI Design System. Coded by Creative Tim"
   }
