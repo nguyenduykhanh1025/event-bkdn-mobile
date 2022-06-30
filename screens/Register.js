@@ -43,6 +43,7 @@ const Register = ({ navigation }) => {
 
     try {
       await authService.registerParticipantAccount(payload);
+      alert('Đăng kí thành công. Vui lòng đăng nhập.');
       navigation.navigate('Login');
     } catch (err) {
       console.log(err.response);
@@ -175,7 +176,7 @@ const Register = ({ navigation }) => {
                             }
                           />
                         </Block>
-                        <Block width={width * 0.8}>
+                        {/* <Block width={width * 0.8}>
                           <Input
                             placeholder="Nhập Lại Mật Khẩu"
                             style={styles.inputs}
@@ -189,7 +190,7 @@ const Register = ({ navigation }) => {
                               />
                             }
                           />
-                        </Block>
+                        </Block> */}
                         {/* <Block
                           style={{ marginVertical: theme.SIZES.BASE, marginLeft: 15 }}
                           row

@@ -33,6 +33,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
 function EventDetail({ navigation, route }) {
   const [event, setEvent] = useState(null);
   const [images, setImages] = useState([]);
+  const [managerEventInformation, setManagerEventInformation] = useState(null);
 
   // useFocusEffect(
   //   React.useCallback(() => {
@@ -48,11 +49,17 @@ function EventDetail({ navigation, route }) {
   const getEventDetailFromAPI = async () => {
     try {
       const res = await participantEventService.show(route.params.idEvent);
+      console.log(res.data.data);
       setEvent(res.data.data);
       buildImagesFromStr(event.images_str);
+      buildManagerEventInformation(res.data.data.manager_event);
     } catch (err) {
     } finally {
     }
+  };
+
+  const buildManagerEventInformation = (data) => {
+    setManagerEventInformation(` ${data.name} ${data.email} ${data.phone_number}`);
   };
 
   const buildImagesFromStr = (imageStr) => {
@@ -199,33 +206,37 @@ function EventDetail({ navigation, route }) {
                     }}
                   />
                   <InformationDetailOfEvent title={'Địa điểm'} content={event?.address} />
-                  <InformationDetailOfEvent title={'TG.Bắt đầu'} content={event?.start_at} />
-                  <InformationDetailOfEvent title={'TG.Kết thúc'} content={event?.end_at} />
+                  <InformationDetailOfEvent title={'Bắt đầu'} content={event?.start_at} />
+                  <InformationDetailOfEvent title={'Kết thúc'} content={event?.end_at} />
                   <InformationDetailOfEvent
-                    title={'Đối tượng tham gia '}
+                    title={'Đối tượng '}
                     content={event?.description_participant}
                   />
                   <InformationDetailOfEvent
                     title={'Yêu cầu '}
                     content={event?.description_required}
                   />
+                  <InformationDetailOfEvent
+                    title={'Phụ trách '}
+                    content={managerEventInformation}
+                  />
                 </Block>
 
                 <Block
                   style={{ paddingBottom: -HeaderHeight * 2, paddingHorizontal: 15, marginTop: 15 }}
                 >
-                  <Block row space="between" style={{ flexWrap: 'wrap' }}>
-                    {images.map((item, index) => {
-                      return (
-                        <Image
-                          source={{ uri: item }}
-                          key={`viewed-${index}`}
-                          resizeMode="cover"
-                          style={styles.thumb}
-                        />
-                      );
-                    })}
-                  </Block>
+                  {/* <Block row space="between" style={{ flexWrap: 'wrap' }}> */}
+                  {images.map((item, index) => {
+                    return (
+                      <Image
+                        source={{ uri: item }}
+                        key={`viewed-${index}`}
+                        resizeMode="cover"
+                        style={{ ...styles.thumb, width: '100%' }}
+                      />
+                    );
+                  })}
+                  {/* </Block> */}
                 </Block>
               </Block>
 

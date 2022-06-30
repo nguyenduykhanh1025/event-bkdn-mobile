@@ -39,7 +39,9 @@ const Login = ({ navigation }) => {
       await AsyncStorage.setItem('@token', res.data.data.access_token);
       navigation.navigate('EventJoin');
     } catch (err) {
-      console.log(err.response);
+      if (err.response.data.message === 'unauthorized') {
+        alert('Đăng nhập thất bại. Vui lòng kiểm tra tài khoản.');
+      }
     } finally {
     }
   };
