@@ -8,7 +8,7 @@ import { createNavigationContainerRef } from '@react-navigation/native';
 export const navigationRef = createNavigationContainerRef();
 
 const axiosClient = axios.create({
-  baseURL: 'http://192.168.2.141:8088/api',
+  baseURL: 'http://192.168.1.3:8088/api',
   headers: {
     'content-type': 'application/json',
   },
@@ -27,6 +27,7 @@ axiosClient.interceptors.request.use(
 
 axiosClient.interceptors.response.use(
   function (response) {
+    console.log('response', response);
     return response;
   },
   function (error) {

@@ -101,6 +101,7 @@ const Login = ({ navigation }) => {
                             placeholder="Mật Khẩu"
                             style={styles.inputs}
                             value={password}
+                            password
                             onChangeText={(e) => setPassword(e)}
                             iconContent={
                               <Icon

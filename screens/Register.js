@@ -162,6 +162,7 @@ const Register = ({ navigation }) => {
                             placeholder="Mật Khẩu"
                             style={styles.inputs}
                             value={password}
+                            password
                             onChangeText={(e) => {
                               setPassword(e);
                             }}

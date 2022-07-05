@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Dimensions, ScrollView, Image, ImageBackground, Platform } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, Image, ImageBackground, Platform, TouchableOpacity } from 'react-native';
 import { Block, Text, theme, Button as GaButton } from 'galio-framework';
 
-import { Button } from '../components';
+import { Button, Input, Icon } from '../components';
 import { Images, nowTheme } from '../constants';
 import { HeaderHeight } from '../constants/utils';
 import { participantUserService } from '../services';
+import Dialog from "react-native-dialog";
+import { Toast } from 'galio-framework';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -13,6 +15,15 @@ const thumbMeasure = (width - 48 - 32) / 3;
 
 const Profile = () => {
   const [userProfile, setUserProfile] = useState(null);
+  const [fullName, setFullName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [idStudent, setIdStudent] = useState('');
+  const [isShowDialogUpdateInformation, setIsShowDialogUpdateInformation] = useState(false)
+  const [isShowDialogUpdatePassword, setIsShowDialogUpdatePassword] = useState(false)
+  const [userProfileOld, setUserProfileOld] = useState(null);
+
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
 
   useEffect(() => {
     getProfileUser();
@@ -22,22 +33,73 @@ const Profile = () => {
     try {
       const res = await participantUserService.getProfile();
       setUserProfile(res.data.data);
-      console.log(res.data.data);
+      buildDataFromAPI(res.data.data)
+      setUserProfileOld(res.data.data)
     } catch (err) {
-      console.log(err);
     }
   };
 
-  const renderFullName = () => {
+  const renderFullName = (data) => {
     let fullName = '';
-    if (userProfile?.last_name) {
-      fullName += userProfile?.last_name;
+    if (data?.last_name) {
+      fullName += data?.last_name;
     }
-    if (userProfile?.first_name) {
-      fullName += userProfile?.first_name;
+    if (data?.first_name) {
+      fullName += data?.first_name;
     }
     return fullName;
   };
+
+
+  const buildDataFromAPI = (data) => {
+    setPhoneNumber(data.phone_number)
+    setIdStudent(data.id_student)
+    setFullName(renderFullName(data))
+  }
+
+  const onClickUpdateInformationProfile = async () => {
+    const payload = {
+      first_name: fullName,
+      phone_number: phoneNumber,
+      id_student: idStudent
+    }
+
+    try {
+      await participantUserService.updateProfile(payload)
+      setIsShowDialogUpdateInformation(false)
+    } catch (err) {
+    } finally {
+    }
+  }
+
+  const onClickCancelInformationProfile = () => {
+    setIsShowDialogUpdateInformation(false)
+    buildDataFromAPI(userProfileOld)
+  }
+
+  const onClickUpdateUpdatePassword = async () => {
+    const payload = {
+      current_password: oldPassword,
+      new_password: newPassword,
+    }
+    try {
+      await participantUserService.updatePassword(payload)
+      setIsShowDialogUpdatePassword(false)
+      setOldPassword('')
+      setNewPassword('')
+    } catch (err) {
+      console.log();
+      if (err.response.data.message == 'current_pass_not_match') {
+        alert('Mật khẩu hiện tại không đúng.');
+      }
+    } finally {
+    }
+  }
+
+  const onClickCancelUpdatePassword = () => {
+    setIsShowDialogUpdatePassword(false)
+  }
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Block
@@ -71,7 +133,7 @@ const Profile = () => {
                       }}
                       color="#ffffff"
                     >
-                      {renderFullName()}
+                      {fullName}
                     </Text>
 
                     <Text
@@ -105,16 +167,6 @@ const Profile = () => {
                       </Block>
 
                       <Block middle>
-                        {/* <Text
-                          color="white"
-                          size={18}
-                          style={{ marginBottom: 4, fontFamily: 'montserrat-regular' }}
-                        >
-                          26
-                        </Text>
-                        <Text style={{ fontFamily: 'montserrat-regular' }} size={14} color="white">
-                          Sự kiện tham gia
-                        </Text> */}
                       </Block>
 
                       <Block middle>
@@ -143,31 +195,18 @@ const Profile = () => {
                   style={{ width: 114, height: 44, marginHorizontal: 5, elevation: 0 }}
                   textStyle={{ fontSize: 16 }}
                   round
+                  onPress={() => { setIsShowDialogUpdateInformation(true) }}
                 >
-                  Follow
+                  Sửa
                 </Button>
-                <GaButton
+                <Button
+                  style={{ width: 114, height: 44, marginHorizontal: 5, elevation: 0 }}
+                  textStyle={{ fontSize: 16 }}
                   round
-                  onlyIcon
-                  shadowless
-                  icon="twitter"
-                  iconFamily="Font-Awesome"
-                  iconColor={nowTheme.COLORS.WHITE}
-                  iconSize={nowTheme.SIZES.BASE * 1.375}
-                  color={'#888888'}
-                  style={[styles.social, styles.shadow]}
-                />
-                <GaButton
-                  round
-                  onlyIcon
-                  shadowless
-                  icon="pinterest"
-                  iconFamily="Font-Awesome"
-                  iconColor={nowTheme.COLORS.WHITE}
-                  iconSize={nowTheme.SIZES.BASE * 1.375}
-                  color={'#888888'}
-                  style={[styles.social, styles.shadow]}
-                />
+                  onPress={() => { setIsShowDialogUpdatePassword(true) }}
+                >
+                  Đổi Mật Khẩu
+                </Button>
               </Block>
             </Block>
           </ImageBackground>
@@ -203,34 +242,121 @@ const Profile = () => {
                 {userProfile?.info_description}
               </Text>
             </Block>
-            {/* <Block row style={{ paddingVertical: 14, paddingHorizontal: 15 }} space="between">
-              <Text bold size={16} color="#2c2c2c" style={{ marginTop: 3 }}>
-                Album
-              </Text>
-              <Button
-                small
-                color="transparent"
-                textStyle={{ color: nowTheme.COLORS.PRIMARY, fontSize: 14 }}
-              >
-                View all
-              </Button>
-            </Block>
-
-            <Block style={{ paddingBottom: -HeaderHeight * 2, paddingHorizontal: 15 }}>
-              <Block row space="between" style={{ flexWrap: 'wrap' }}>
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={img}
-                    key={`viewed-${img}`}
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
-              </Block>
-            </Block> */}
           </Block>
         </Block>
       </Block>
+      <Dialog.Container visible={isShowDialogUpdateInformation}>
+        <Dialog.Title>Sửa Thông Tin Tài Khoản</Dialog.Title>
+        <Dialog.Description>
+          <Block width={width * 0.8} style={{ marginBottom: 5 }}>
+            <Input
+              placeholder="Họ Và Tên"
+              style={styles.inputs}
+              value={fullName}
+              onChangeText={(e) => {
+                setFullName(e);
+              }}
+              iconContent={
+                <Icon
+                  size={16}
+                  color="#ADB5BD"
+                  name="profile-circle"
+                  family="NowExtra"
+                  style={styles.inputIcons}
+                />
+              }
+            />
+          </Block>
+          <Block width={width * 0.8} style={{ marginBottom: 5 }}>
+            <Input
+              placeholder="Số Điện Thoại"
+              style={styles.inputs}
+              value={phoneNumber}
+              onChangeText={(e) => {
+                setPhoneNumber(e);
+              }}
+              iconContent={
+                <Icon
+                  size={16}
+                  color="#ADB5BD"
+                  name="phone"
+                  family="AntDesign"
+                  style={styles.inputIcons}
+                />
+              }
+            />
+          </Block>
+          <Block width={width * 0.8}>
+            <Input
+              placeholder="Mã Số Sinh Viên"
+              style={styles.inputs}
+              value={idStudent}
+              onChangeText={(e) => {
+                setIdStudent(e);
+              }}
+              iconContent={
+                <Icon
+                  size={16}
+                  color="#ADB5BD"
+                  name="idcard"
+                  family="AntDesign"
+                  style={styles.inputIcons}
+                />
+              }
+            />
+          </Block>
+        </Dialog.Description>
+        <Dialog.Button label="Thoát" onPress={onClickCancelInformationProfile} />
+        <Dialog.Button label="Lưu" onPress={onClickUpdateInformationProfile} />
+      </Dialog.Container>
+
+      <Dialog.Container visible={isShowDialogUpdatePassword}>
+        <Dialog.Title>Đổi Mật Khẩu</Dialog.Title>
+        <Dialog.Description>
+          <Block width={width * 0.8}>
+            <Input
+              placeholder="Mật Khẩu Hiện Tại"
+              style={styles.inputs}
+              value={oldPassword}
+              password
+              onChangeText={(e) => {
+                setOldPassword(e);
+              }}
+              iconContent={
+                <Icon
+                  size={16}
+                  color="#ADB5BD"
+                  name="text"
+                  family="Entypo"
+                  style={styles.inputIcons}
+                />
+              }
+            />
+          </Block>
+          <Block width={width * 0.8}>
+            <Input
+              placeholder="Mật Khẩu Mới"
+              style={styles.inputs}
+              value={newPassword}
+              password
+              onChangeText={(e) => {
+                setNewPassword(e);
+              }}
+              iconContent={
+                <Icon
+                  size={16}
+                  color="#ADB5BD"
+                  name="text"
+                  family="Entypo"
+                  style={styles.inputIcons}
+                />
+              }
+            />
+          </Block>
+        </Dialog.Description>
+        <Dialog.Button label="Thoát" onPress={onClickCancelUpdatePassword} />
+        <Dialog.Button label="Lưu" onPress={onClickUpdateUpdatePassword} />
+      </Dialog.Container>
     </ScrollView>
   );
 };
@@ -279,6 +405,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     zIndex: 99,
     marginHorizontal: 5,
+  },
+  inputIcons: {
+    marginRight: 12,
+    color: nowTheme.COLORS.ICON_INPUT,
+  },
+  inputs: {
+    borderWidth: 1,
+    borderColor: '#E3E3E3',
+    borderRadius: 21.5,
+    width: '100%'
   },
 });
 

@@ -46,7 +46,6 @@ export default function App() {
 
   const updateExponentPushToken = () => {
     registerForPushNotification().then(async (token) => {
-      console.log('token', token);
       if (token) {
         try {
           const payload = {

@@ -5,6 +5,7 @@ import { Dimensions, ScrollView, StyleSheet } from 'react-native';
 import { Card } from '../../components';
 import articles from '../../constants/articles';
 import { participantEventService } from '../../services';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('screen');
 
@@ -13,10 +14,18 @@ const EventsInProgressAccept = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      checkTokenIsExist();
       getEventsFromAPI();
     }, [])
   );
+  
+  const checkTokenIsExist = async () => {
+    const token = await AsyncStorage.getItem('@token');
+    if(!token) {
+      navigation.navigate('Login')
+    }
 
+  }
   const getEventsFromAPI = async () => {
     const PARAMS_PAGINATE_DEFAULT = {
       page: 1,

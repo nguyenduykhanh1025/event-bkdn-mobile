@@ -23,4 +23,10 @@ export default (axios) => (resource) => ({
   getProfile() {
     return axios.get(`${resource}/get-profile`);
   },
+  updateProfile(payload) {
+    return axios.put(`${resource}/update-profile`, payload);
+  },
+  updatePassword(payload) {
+    return axios.put(`${resource}/update-password`, payload);
+  }
 });
