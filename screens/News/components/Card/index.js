@@ -65,7 +65,7 @@ const Card = (props) => {
         }}
       >
         <Block flex style={imgContainer}>
-          <Image resizeMode="cover" source={{ uri: images[0] }} style={imageStyles} />
+          <Image resizeMode="cover" source={{ uri: data.images_str.split(',')[0] }} style={imageStyles} />
         </Block>
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback
@@ -92,7 +92,7 @@ const Card = (props) => {
                 size={12}
                 color={nowTheme.COLORS.TEXT}
               >
-                {data?.description.substring(0, 130)}...
+                {data?.description.substring(0, 120)}...
               </Text>
             </Block>
           </Block>

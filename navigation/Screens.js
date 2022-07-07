@@ -173,7 +173,7 @@ function ProfileStack(props) {
         component={Profile}
         options={{
           header: ({ navigation, scene }) => (
-            <Header transparent white title="Profile" navigation={navigation} scene={scene} />
+            <Header transparent white title="Tài Khoản" navigation={navigation} scene={scene} />
           ),
           cardStyle: { backgroundColor: '#FFFFFF' },
           headerTransparent: true,
@@ -333,7 +333,7 @@ function AppStack(props) {
       <Drawer.Screen name="EventNew" component={EventNewStack} options={{ title: 'Sự Kiện Mới' }} />
       <Drawer.Screen name="News" component={NewsStack} options={{ title: 'Tin Tức' }} />
 
-      <Drawer.Screen name="Profile" component={ProfileStack} />
+      <Drawer.Screen name="Profile" component={ProfileStack} options={{ title: 'Tài Khoản' }}/>
       <Drawer.Screen name="Register" component={RegisterStack} options={{ headerShown: false }} />
       <Drawer.Screen name="Login" component={LoginStack} options={{ headerShown: false }} />
       <Drawer.Screen name="EventDetail" component={EventDetailStack} options={{ headerShown: false }} />
