@@ -33,7 +33,6 @@ const Card = (props) => {
 
   useEffect(() => {
     buildImage()
-    console.log(data);
   }, [data])
 
   const buildImage = () => {
@@ -92,7 +91,7 @@ const Card = (props) => {
                 size={12}
                 color={nowTheme.COLORS.TEXT}
               >
-                {data?.description.substring(0, 120)}...
+                {data?.description.substring(0, 110)}...
               </Text>
             </Block>
           </Block>

@@ -33,7 +33,6 @@ const Card = (props) => {
 
   useEffect(() => {
     buildImage()
-    console.log(data);
   }, [data])
 
   const buildImage = () => {

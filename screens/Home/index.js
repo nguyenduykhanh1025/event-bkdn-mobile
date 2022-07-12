@@ -24,9 +24,7 @@ const Home = ({ navigation }) => {
     };
     try {
       const res = await participantEventService.paginateEventIncoming(PARAMS_PAGINATE_DEFAULT);
-      console.log(res);
     } catch (err) {
-      console.log(err);
     }
   };
 

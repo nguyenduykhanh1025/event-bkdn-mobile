@@ -109,7 +109,7 @@ class DrawerItem extends React.Component {
             color={focused ? nowTheme.COLORS.PRIMARY : 'black'}
           />
         );
-      case 'LOGOUT':
+      case 'Đăng Xuất':
         return (
           <Icon
             name="share"
@@ -141,7 +141,6 @@ class DrawerItem extends React.Component {
       <TouchableOpacity
         style={{ height: 60 }}
         onPress={() => {
-          console.log('name', name);
           name == 'LOGOUT'
             ? this.onCLickLogout()
             : navigation.navigate(name == 'LOGOUT' ? 'Onboarding' : name);

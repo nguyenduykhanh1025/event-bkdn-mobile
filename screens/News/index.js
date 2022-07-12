@@ -26,7 +26,6 @@ const News = ({ navigation }) => {
 
     try {
       const res = await participantJournalService.paginate(params);
-      console.log('res', res);
       setEvents(res.data.data.items);
     } catch (err) {
     }

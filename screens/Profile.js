@@ -8,6 +8,7 @@ import { HeaderHeight } from '../constants/utils';
 import { participantUserService } from '../services';
 import Dialog from "react-native-dialog";
 import { Toast } from 'galio-framework';
+import DocumentPicker from 'react-native-document-picker';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -27,6 +28,7 @@ const Profile = () => {
 
   useEffect(() => {
     getProfileUser();
+
   }, []);
 
   const getProfileUser = async () => {
@@ -214,7 +216,7 @@ const Profile = () => {
         <Block flex={0.5} style={{ padding: theme.SIZES.BASE, marginTop: 0 }}>
           <Block flex style={{ marginTop: 0 }}>
             <Block middle>
-              <Text
+              {/* <Text
                 style={{
                   color: '#2c2c2c',
                   fontWeight: 'bold',
@@ -226,7 +228,7 @@ const Profile = () => {
                 }}
               >
                 Giới Thiệu
-              </Text>
+              </Text> */}
               <Text
                 size={16}
                 muted

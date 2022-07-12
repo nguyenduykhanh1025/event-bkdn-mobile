@@ -51,7 +51,6 @@ function NewsDetail({ navigation, route }) {
     try {
       const res = await participantJournalService.show(route.params.idNews);
       setEvent(res.data.data);
-      console.log(res.data.data);
       buildImagesFromStr(event.images_str);
     } catch (err) {
     } finally {
@@ -68,7 +67,6 @@ function NewsDetail({ navigation, route }) {
       email: email,
       id_event: event.id,
     };
-    console.log(payload);
     try {
       const res = await eventUserService.joinToEvent(payload);
       navigation.goBack();
@@ -90,15 +88,12 @@ function NewsDetail({ navigation, route }) {
 
   const onClickRemoveToEvent = async () => {
     try {
-      console.log(event.id);
       const payload = {
         id_event: event.id,
       };
       const res = await participantEventUserService.removeToEvent(payload);
       navigation.goBack();
-      console.log('res', res);
     } catch (err) {
-      console.log('err', err.response);
     } finally {
     }
   };

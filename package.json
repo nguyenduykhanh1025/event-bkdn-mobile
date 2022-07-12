@@ -8,7 +8,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "lint": "eslint *.js **/*.js"
+    "lint": "eslint *.js **/*.js",
+    "build": "expo build:android"
   },
   "repository": {
     "type": "git",
@@ -39,6 +40,7 @@
     "react": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-dialog": "^9.2.2",
+    "react-native-document-picker": "^8.1.1",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-modal-dropdown": "git+https://github.com/siemiatj/react-native-modal-dropdown.git",
     "react-native-reanimated": "~2.2.0",

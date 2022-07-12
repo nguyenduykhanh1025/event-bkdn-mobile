@@ -4,8 +4,10 @@ import React, { useState } from 'react';
 import { Dimensions, ScrollView, StyleSheet } from 'react-native';
 import { Card } from '../../components';
 import articles from '../../constants/articles';
-import { participantEventService } from '../../services';
+import { participantEventService, participantUserService } from '../../services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
 
 const { width } = Dimensions.get('screen');
 
@@ -16,8 +18,38 @@ const EventsInProgressAccept = ({ navigation }) => {
     React.useCallback(() => {
       checkTokenIsExist();
       getEventsFromAPI();
+      updateExponentPushToken();
     }, [])
   );
+
+  const updateExponentPushToken = () => {
+    registerForPushNotification().then(async (token) => {
+      if (token) {
+        try {
+          const payload = {
+            exponent_push_token: token,
+          };
+          await participantUserService.updateExponentPushToken(payload);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    });
+  };
+
+  async function registerForPushNotification() {
+    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    if (status != 'granted') {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      // finalStatus = status;
+    }
+    if (status !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    return token;
+  }
   
   const checkTokenIsExist = async () => {
     const token = await AsyncStorage.getItem('@token');

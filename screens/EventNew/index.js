@@ -18,7 +18,6 @@ const EventsInProgressAccept = ({ navigation }) => {
   );
 
   const getEventsFromAPI = async () => {
-    console.log('asdasdasdasd');
     const PARAMS_PAGINATE_DEFAULT = {
       page: 1,
       limit: 10000,
@@ -30,7 +29,6 @@ const EventsInProgressAccept = ({ navigation }) => {
   };
 
   const renderArticles = () => {
-    console.log(events);
     return (
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.articles}>
         <Block flex>

@@ -49,7 +49,6 @@ function EventDetail({ navigation, route }) {
   const getEventDetailFromAPI = async () => {
     try {
       const res = await participantEventService.show(route.params.idEvent);
-      console.log(res.data.data);
       setEvent(res.data.data);
       buildImagesFromStr(event.images_str);
       buildManagerEventInformation(res.data.data.manager_event);
@@ -86,21 +85,22 @@ function EventDetail({ navigation, route }) {
         // ToastAndroid.show('Bạn đã tham gia sự kiện này.', ToastAndroid.SHORT, ToastAndroid.CENTER);
         alert('Bạn đã tham gia sự kiện này.');
       }
+
+      if(message == 'exist_event_in_time') {
+        alert('Bạn đã tham gia sự kiện khác cùng thời gian.');
+      }
     } finally {
     }
   };
 
   const onClickRemoveToEvent = async () => {
     try {
-      console.log(event.id);
       const payload = {
         id_event: event.id,
       };
       const res = await participantEventUserService.removeToEvent(payload);
       navigation.goBack();
-      console.log('res', res);
     } catch (err) {
-      console.log('err', err.response);
     } finally {
     }
   };

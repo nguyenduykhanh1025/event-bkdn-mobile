@@ -95,7 +95,7 @@ function CustomDrawerContent({ drawerPosition, navigation, profile, focused, sta
             </Text> */}
           </Block>
           {/* <DrawerCustomItem title="GETTING STARTED" navigation={navigation} /> */}
-          <DrawerCustomItem title="LOGOUT" navigation={navigation} name="LOGOUT"/>
+          <DrawerCustomItem title="Đăng Xuất" navigation={navigation} name="LOGOUT"/>
           {/* <DrawerCustomItem title="LOGOUT" navigation={navigation} /> */}
         </ScrollView>
       </Block>
